@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="2923199859">
+    <data-source source="LOCAL" name="Rails qq: development" uuid="93509fd6-7752-45a8-a7db-20f9927d6d37">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql:qq_development</jdbc-url>
+      <libraries />
+    </data-source>
+    <data-source source="LOCAL" name="Rails qq: test" uuid="d5d00669-e548-43e4-9ade-08a3dcb10de6">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql:qq_test</jdbc-url>
+      <libraries />
+    </data-source>
+  </component>
+</project>
