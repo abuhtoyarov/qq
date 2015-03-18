@@ -21,6 +21,18 @@ module Qq
     # config.i18n.default_locale = :de
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
+    config.generators do |g|
+      g.test_framework :rspec,
+                      fixtures:true,
+                      view_spec:false,
+                      helper_spec:false,
+                      routing_spec:false,
+                      request_spec:false,
+                      controller_spec:true
+      g.fixtures_replacement :factory_girl, dir: 'spec/factories'
+
+
+    end
     config.active_record.raise_in_transactional_callbacks = true
   end
 end
