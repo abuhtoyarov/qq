@@ -27,7 +27,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #index' do
-    let(:question){ create_list(:question, 2 )}
+    let(:question){ create_list(:question, 2 ) }
 
     before{ get :index }
 
@@ -37,6 +37,19 @@ RSpec.describe QuestionsController, type: :controller do
 
     it 'renders index view' do
       expect(response).to render_template :index
+    end
+  end
+
+  describe 'GET #show' do
+    let(:question){ create(:question)}
+
+    it 'assings the requested question to @question' do
+      get :show, id: question
+      expect(assigns(:question)).to eq question
+    end
+    it 'renders show view' do
+      get :show, id: question
+      expect(response).to render_template :show
     end
   end
 end
