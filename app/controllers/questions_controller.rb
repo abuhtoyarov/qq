@@ -1,7 +1,17 @@
 class QuestionsController < ApplicationController
 
+  def index
+    @question = Question.all
+  end
+
+
   def create
     @question = Question.create(question_params)
+    if @question.save
+      redirect_to @question
+    else
+      render :new
+    end
   end
 
   private
