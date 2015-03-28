@@ -13,7 +13,10 @@ RSpec.describe AnswersController, type: :controller do
         expect{ post :create, question_id: question, answer: attributes_for(:answer) }.to change(Answer, :count).by(1)
         expect(response).to redirect_to questions_path(assigns(:question))
       end
-
+      it 'Answer associated with question' do
+        post :create, question_id: question, answer: attributes_for(:answer)
+        expect(assigns(:answer)[:question_id]).to eq question.id
+      end
     end
 
     context 'with invalid attributes' do

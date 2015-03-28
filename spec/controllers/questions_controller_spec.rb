@@ -11,7 +11,6 @@ RSpec.describe QuestionsController, type: :controller do
         post :create, question: attributes_for(:question)
         expect(response).to redirect_to question_path(assigns(:question))
       end
-
     end
 
     context 'with invalid attributes' do
@@ -44,11 +43,24 @@ RSpec.describe QuestionsController, type: :controller do
 
     before{ get :show, id: question }
 
-    it 'assings the requested question to @question' do
+    it 'Assings the requested question to @question' do
       expect(assigns(:question)).to eq question
     end
     it 'renders show view' do
       expect(response).to render_template :show
+    end
+  end
+
+  describe 'GET #new' do
+
+    before{ get :new }
+
+    it 'Assign a new Question to @question' do
+      expect(assigns(:question)).to be_a_new(Question)
+    end
+
+    it 'render new view' do
+      expect(response).to render_template :new
     end
   end
 end
