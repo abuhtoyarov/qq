@@ -10,7 +10,6 @@ feature 'Create answer on question', %q{
     Question.create(title:'Question title', body:'Question body')
     visit questions_path
 
-    save_and_open_page
     click_on 'Question title'
     fill_in 'Body', with: 'Answer on question'
     click_on 'Answer'

@@ -32,6 +32,7 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'GET #new' do
 
+
     before{ get :new, question_id:question }
 
     it 'Assign a new Answer to @answer' do
