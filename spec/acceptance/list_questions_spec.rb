@@ -15,7 +15,6 @@ feature 'View questions', %q{
     expect(page).to have_content 'question1'
     expect(page).to have_content 'question2'
 
-    save_and_open_page
   end
 
 end
