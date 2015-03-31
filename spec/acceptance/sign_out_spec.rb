@@ -21,6 +21,5 @@ feature 'User sign out', %q{
 
     expect(page).to have_content 'Signed out successfully.'
     expect(current_path).to eq root_path
-    save_and_open_page
   end
 end
