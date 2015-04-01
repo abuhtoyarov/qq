@@ -15,11 +15,19 @@ class QuestionsController < ApplicationController
 
   def create
     @question = Question.new(question_params)
+    @question.user = current_user
     if @question.save
       flash[:notice] = 'Your question successfully created.'
       redirect_to @question
     else
       render :new
+    end
+  end
+
+  def destroy
+    @question = Question.find(params[:id])
+    if @question.destroy
+      redirect_to root_path, notice: 'Question deleted'
     end
   end
 

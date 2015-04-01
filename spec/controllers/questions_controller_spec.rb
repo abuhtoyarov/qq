@@ -64,4 +64,21 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to render_template :new
     end
   end
+
+  describe 'DELETE #destroy' do
+    sign_in_user
+
+    let(:question) { create(:question) }
+
+    it 'Delete question' do
+      question
+      expect{ delete :destroy, id: question }.to change(Question, :count).by(-1)
+    end
+
+    it 'Redirect index page' do
+      delete :destroy, id: question
+      expect(response).to redirect_to root_path
+    end
+
+  end
 end
