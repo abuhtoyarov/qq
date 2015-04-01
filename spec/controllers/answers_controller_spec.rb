@@ -4,6 +4,7 @@ RSpec.describe AnswersController, type: :controller do
   let(:question){ create(:question) }
 
   describe 'POST #create' do
+    sign_in_user
 
     context 'with valid attributes' do
       it 'saved the new answer in the database' do
@@ -31,7 +32,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #new' do
-
+    sign_in_user
 
     before{ get :new, question_id:question }
 

@@ -6,7 +6,14 @@ feature 'Create question', %q{
         I want to be able ask questions
 } do
 
-  scenario 'Non-authenticated user ties to created questions' do
+  given(:user) { create(:user) }
+
+  scenario 'Authenticated user creates questions' do
+    visit new_user_session_path
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: user.password
+    click_on 'Log in'
+
     visit questions_path
     click_on 'Ask question'
 
@@ -18,6 +25,13 @@ feature 'Create question', %q{
     expect(page).to have_content 'Title question'
     expect(page).to have_content 'body text'
 
+  end
+
+  scenario 'Non-authenticated user ties to created questions' do
+    visit questions_path
+    click_on 'Ask question'
+
+    expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
 
 end
