@@ -7,18 +7,20 @@ feature 'Create answer on question', %q{
 } do
 
   given(:user) { create(:user) }
+  given(:question) { create(:question) }
 
   scenario 'Non-authenticated user ties to created answer' do
+    visit questions_path(question)
+    click_on question.title
 
+    expect(page).to_not have_selector(:link_or_button, 'Answer')
   end
 
   scenario 'Authenticated user creates answer' do
     sign_in(user)
 
-    Question.create(title:'Question title', body:'Question body')
-
-    visit questions_path
-    click_on 'Question title'
+    visit questions_path(question)
+    click_on question.title
     fill_in 'Body', with: 'Answer on question'
     click_on 'Answer'
 

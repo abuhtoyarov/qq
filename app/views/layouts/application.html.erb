@@ -11,9 +11,11 @@
 
 <p class="notice"><%= notice %></p>
 <p class="alert"><%= alert %></p>
-<ul>
-  <%= link_to('Log out', destroy_user_session_path, :method => :delete) %>
-</ul>
+<% if user_signed_in? %>
+    <ul>
+      <%= link_to('Log out', destroy_user_session_path, :method => :delete) %>
+    </ul>
+<% end %>
 <%= yield %>
 
 </body>

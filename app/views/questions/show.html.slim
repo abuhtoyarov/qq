@@ -6,7 +6,9 @@
 - @question.answers.each do |a|
   p #{a.body}
 
-= form_for([@question, @question.answers.build]) do |f|
-  = f.label :body
-  = f.text_area :body
-  = f.submit 'Answer'
+
+- if user_signed_in?
+  = form_for([@question, @question.answers.build]) do |f|
+    = f.label :body
+    = f.text_area :body
+    = f.submit 'Answer'

@@ -8,6 +8,7 @@ feature 'Create question', %q{
 
   given(:user) { create(:user) }
 
+
   scenario 'Authenticated user creates questions' do
     sign_in(user)
 
