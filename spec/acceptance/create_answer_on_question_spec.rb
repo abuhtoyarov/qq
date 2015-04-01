@@ -13,15 +13,11 @@ feature 'Create answer on question', %q{
   end
 
   scenario 'Authenticated user creates answer' do
-    visit new_user_session_path
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: user.password
-    click_on 'Log in'
+    sign_in(user)
 
     Question.create(title:'Question title', body:'Question body')
 
     visit questions_path
-
     click_on 'Question title'
     fill_in 'Body', with: 'Answer on question'
     click_on 'Answer'
