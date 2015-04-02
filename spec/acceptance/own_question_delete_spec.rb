@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-feature 'Owner may delete question or answer', %q{
-        In order to be able delete of question or answer
+feature 'Owner may delete question', %q{
+        In order to be able delete of question
         As an owner
-        I want to be able delete of question ot answer
+        I want to be able delete of question
 } do
 
   given(:user) { create(:user) }
@@ -14,19 +14,17 @@ feature 'Owner may delete question or answer', %q{
     sign_in user
 
     visit question_path(question)
-    save_and_open_page
     click_on 'Delete'
 
     expect(page).to have_content 'Question deleted'
   end
 
-  scenario 'Non-Owner delete answer' do
+  scenario 'Non-Owner delete question' do
     sign_in wrong_user
 
     visit question_path(question)
 
     expect(page).to_not have_selector(:link_or_button, 'Delete')
-
   end
 
 end

@@ -4,6 +4,7 @@ class AnswersController < ApplicationController
   def create
     @question = Question.find(params[:question_id])
     @answer = @question.answers.create(answer_params)
+    @answer.user = current_user
     redirect_to questions_path(@question)
     if @answer.save
      flash[:notice]='Your answer successfully created.'
@@ -14,6 +15,13 @@ class AnswersController < ApplicationController
 
   def new
     @answer = Answer.new
+  end
+
+  def destroy
+    @question = Question.find(params[:question_id])
+    @answer = @question.answers.find(params[:id])
+    @answer.destroy
+    redirect_to question_path(@question)
   end
 
   private
