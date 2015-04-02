@@ -15,14 +15,15 @@ feature 'Create answer on question', %q{
     expect(page).to_not have_selector(:link_or_button, 'Answer')
   end
 
-  scenario 'Authenticated user creates answer' do
+  scenario 'Authenticated user creates answer', js: true do
     sign_in(user)
 
     visit question_path(question)
     fill_in 'Body', with: 'Answer on question'
     click_on 'Answer'
 
-    expect(page).to have_content 'Your answer successfully created.'
     expect(page).to have_content 'Answer on question'
+    expect(current_path).to eq question_path(question)
   end
+
 end

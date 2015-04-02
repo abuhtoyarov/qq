@@ -3,15 +3,12 @@
 
 =@question.body
 
-- @question.answers.each do |a|
-  p =a.body
-  - if user_signed_in? && a.user_id == current_user.id
-    p= link_to 'Delete answer',[@question, a], method: :delete
-
+.answers
+  = render 'answers'
 
 
 - if user_signed_in?
-  = form_for([@question, @question.answers.build]) do |f|
+  = form_for [@question, @question.answers.build], remote: true do |f|
     = f.label :body
     = f.text_area :body
     = f.submit 'Answer'

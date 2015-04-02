@@ -26,12 +26,12 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #index' do
-    let(:question){ create_list(:question, 2 ) }
+    let(:question){ create_list(:question, 2) }
 
     before{ get :index }
 
     it 'populates an array of all question' do
-      expect(assigns(:question)) .to match_array(question)
+      expect(assigns(:question)).to match_array(question)
     end
 
     it 'renders index view' do

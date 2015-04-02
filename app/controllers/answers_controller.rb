@@ -5,12 +5,7 @@ class AnswersController < ApplicationController
     @question = Question.find(params[:question_id])
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
-    redirect_to question_path(@question)
-    if @answer.save
-     flash[:notice]='Your answer successfully created.'
-    else
-      flash[:notice]='Your answer not created.'
-    end
+    @answer.save
   end
 
   def new
