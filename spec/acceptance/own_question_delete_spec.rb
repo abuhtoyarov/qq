@@ -27,4 +27,10 @@ feature 'Owner may delete question', %q{
     expect(page).to_not have_selector(:link_or_button, 'Delete')
   end
 
+  scenario 'Non authenticated user want delete question' do
+    visit question_path(question)
+
+    expect(page).to_not have_selector(:link_or_button, 'Delete')
+  end
+
 end
