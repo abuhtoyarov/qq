@@ -16,10 +16,15 @@ feature 'Owner may delete answer', %q{
     sign_in user
 
     visit question_path(question)
-    save_and_open_page
     click_on 'Delete answer'
 
     expect(page).to have_content 'Answer deleted'
+  end
+
+  scenario 'Non authenticated user want delete answer' do
+    visit question_path(question)
+
+    expect(page).to_not have_selector(:link_or_button, 'Delete answer')
   end
 
   scenario 'Non-Owner answer question' do
@@ -27,7 +32,7 @@ feature 'Owner may delete answer', %q{
 
     visit question_path(question)
 
-    expect(page).to_not have_selector(:link_or_button, 'Delete answer ')
+    expect(page).to_not have_selector(:link_or_button, 'Delete answer')
   end
 
 end

@@ -13,7 +13,7 @@ RSpec.describe AnswersController, type: :controller do
       end
       it 'redirect to show view' do
         expect{ post :create, question_id: question, answer: attributes_for(:answer) }.to change(Answer, :count).by(1)
-        expect(response).to redirect_to questions_path(assigns(:question))
+        expect(response).to redirect_to question_path(assigns(:question))
       end
       it 'Answer associated with question' do
         post :create, question_id: question, answer: attributes_for(:answer)
@@ -27,7 +27,7 @@ RSpec.describe AnswersController, type: :controller do
       end
       it 'redirect to show view' do
         post :create, question_id: question, answer: attributes_for(:invalid_answer)
-        expect(response).to redirect_to questions_path(assigns(:question))
+        expect(response).to redirect_to question_path(assigns(:question))
       end
     end
   end
