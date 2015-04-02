@@ -1,9 +1,9 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, any: [:create, :new]
+  before_action :authenticate_user!, any: [:new, :create]
 
   def create
     @question = Question.find(params[:question_id])
-    @answer = @question.answers.create(answer_params)
+    @answer = @question.answers.new(answer_params)
     @answer.user = current_user
     redirect_to question_path(@question)
     if @answer.save

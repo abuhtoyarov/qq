@@ -23,5 +23,6 @@ feature 'Create answer on question', %q{
     click_on 'Answer'
 
     expect(page).to have_content 'Your answer successfully created.'
+    expect(page).to have_content 'Answer on question'
   end
 end
