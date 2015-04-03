@@ -10,8 +10,6 @@
 .answers
 
 
-
-
 - if user_signed_in?
   = form_for [@question, @question.answers.build], remote: true do |f|
     = f.label :body
