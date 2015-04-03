@@ -17,13 +17,14 @@ feature 'Create answer on question', %q{
 
   scenario 'Authenticated user creates answer', js: true do
     sign_in(user)
-
     visit question_path(question)
+
     fill_in 'Body', with: 'Answer on question'
     click_on 'Answer'
 
-    expect(page).to have_content 'Answer on question'
     expect(current_path).to eq question_path(question)
+    within '.answers' do
+      expect(page).to have_content 'Answer on question'
+    end
   end
-
 end
