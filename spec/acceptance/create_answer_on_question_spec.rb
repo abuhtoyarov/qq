@@ -27,4 +27,13 @@ feature 'Create answer on question', %q{
       expect(page).to have_content 'Answer on question'
     end
   end
+
+  scenario 'Authenticated user creates blank answer', js: true do
+    sign_in(user)
+    visit question_path(question)
+
+    click_on 'Answer'
+
+    expect(page).to have_content("Body can't be blank")
+  end
 end
