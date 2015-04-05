@@ -3,6 +3,12 @@
         $('.answer-errors').html('<%= j message %>')
     <% end %>
 <% else %>
-$('.answers').append('<%= j render 'questions/answer' %>')
+$('.answers').append('<%= j render :partial =>  'questions/answer', locals: {answer: @answer} %>')
 $('#answer_body').val('')
+$('.edit-answer-link').click(function(e){
+    e.preventDefault();
+    $(this).hide();
+    answer_id = $(this).data('answer-id');
+    $('form#edit_answer_' + answer_id).show();
+});
 <% end %>

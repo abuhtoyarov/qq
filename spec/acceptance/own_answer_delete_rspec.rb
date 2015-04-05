@@ -9,7 +9,7 @@ feature 'Owner may delete answer', %q{
   given(:user) { create(:user) }
   given(:wrong_user) { create(:user) }
   given!(:question) { create(:question, user: user) }
-  given!(:answer) { create(:answer, question: question, user: user )}
+  given!(:answer) { create(:answer, question: question, user: user ) }
 
 
   scenario 'Owner delete answer' do
