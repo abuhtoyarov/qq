@@ -12,13 +12,16 @@ feature 'Owner may delete answer', %q{
   given!(:answer) { create(:answer, question: question, user: user ) }
 
 
-  scenario 'Owner delete answer' do
+  scenario 'Owner delete answer', js: true do
     sign_in user
 
     visit question_path(question)
-    click_on 'Delete answer'
 
-    expect(page).to_not have_content answer.body
+    within '.answer' do
+      click_on 'Delete answer'
+
+      expect(page).to_not have_content answer.body
+    end
   end
 
   scenario 'Non authenticated user want delete answer' do

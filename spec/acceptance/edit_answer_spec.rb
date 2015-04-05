@@ -29,8 +29,8 @@ feature 'Answer editing', %q{
     end
 
     scenario 'Try to edit his answer', js: true do
-      click_on 'Edit'
-      within '.answers' do
+      within '.answer' do
+        click_on 'Edit'
         fill_in 'Answer', with: 'edited answer'
         click_on 'Save'
 
