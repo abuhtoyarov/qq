@@ -2,5 +2,8 @@ p= link_to 'Ask question', new_question_path
 
 
 h1 Questions list
-- @question.each do |q|
-  p= link_to q.title, question_path(q)
+- @question.each do |question|
+  p= link_to question.title, question_path(question)
+
+
+

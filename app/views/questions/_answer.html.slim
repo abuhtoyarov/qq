@@ -1,7 +1,7 @@
 .answer id=answer.id
   p= answer.body
   - if user_signed_in? && answer.user_id == current_user.id
-      p= link_to 'Delete answer',[@question, answer], method: :delete
+      p= link_to 'Delete answer',[@question, answer], remote: true, method: :delete
       p= link_to 'Edit', '', class: 'edit-answer-link', data: {answer_id: answer.id}
       p
         = form_for [@question, answer], remote: true do |f|

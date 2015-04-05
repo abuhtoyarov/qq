@@ -13,6 +13,3 @@
  *= require_tree .
  *= require_self
  */
-.edit_answer{
-    display: none;
-}

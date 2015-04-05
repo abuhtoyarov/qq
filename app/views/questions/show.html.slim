@@ -1,7 +1,4 @@
-
-=@question.title
-
-=@question.body
+=render :partial =>  'question', locals: { question: @question }
 
 .answers
   - @question.answers.each do |answer|

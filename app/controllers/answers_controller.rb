@@ -15,9 +15,7 @@ class AnswersController < ApplicationController
   def destroy
     @question = Question.find(params[:question_id])
     @answer = @question.answers.find(params[:id])
-    if @answer.destroy
-      redirect_to question_path(@question), notice: 'Answer deleted'
-    end
+    @answer.destroy
   end
 
   def update

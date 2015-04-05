@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../../spec/acceptance/acceptance_helper'
 
 RSpec.describe QuestionsController, type: :controller do
 
@@ -80,5 +80,28 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to redirect_to root_path
     end
 
+  end
+
+  describe 'PATCH #update' do
+    sign_in_user
+
+    let!(:question) { create(:question) }
+
+    it 'assigns the requested question to @question' do
+      patch :update, id: question, question: attributes_for(:question), format: :js
+      expect(assigns(:question)).to eq question
+    end
+
+    it 'changes answer attributes' do
+      patch :update, id: question, question: {title: 'New Title', body: 'New body'}, format: :js
+      question.reload
+      expect(question.title).to eq 'New Title'
+      expect(question.body).to eq 'New body'
+    end
+
+    it 'render update template' do
+      patch :update, id: question, question: attributes_for(:question), format: :js
+      expect(response).to render_template :update
+    end
   end
 end
