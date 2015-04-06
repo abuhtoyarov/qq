@@ -19,6 +19,7 @@ feature 'Owner may delete answer', %q{
 
     within '.answer' do
       click_on 'Delete answer'
+      save_and_open_page
 
       expect(page).to_not have_content answer.body
     end

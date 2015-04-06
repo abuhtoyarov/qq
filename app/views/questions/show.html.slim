@@ -1,15 +1,18 @@
-=render :partial =>  'question', locals: { question: @question }
+.container
+  .row
+    .col-sm-12
+      =render :partial =>  'question', locals: { question: @question }
 
-.answers
-  - @question.answers.each do |answer|
+  .answers
+    - @question.answers.each do |answer|
       =render :partial =>  'answer', locals: { answer: answer }
 
-- if user_signed_in?
-  = form_for [@question, @question.answers.build], remote: true do |f|
-    = f.label :body
-    .answer-errors
-    = f.text_area :body
-    = f.submit 'Answer'
+  - if user_signed_in?
+    = form_for [@question, @question.answers.build], remote: true do |f|
+      = f.label :body
+      .answer-errors
+      = f.text_area :body
+      = f.submit 'Answer'
 
-- if user_signed_in? && @question.user_id == current_user.id
-  p= link_to 'Delete', @question, method: :delete
+  - if user_signed_in? && @question.user_id == current_user.id
+    p= link_to 'Delete', @question, method: :delete
