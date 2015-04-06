@@ -18,8 +18,7 @@ feature 'Owner may delete answer', %q{
     visit question_path(question)
 
     within '.answer' do
-      click_on 'Delete answer'
-      save_and_open_page
+      click_link 'Delete answer'
 
       expect(page).to_not have_content answer.body
     end
@@ -38,5 +37,4 @@ feature 'Owner may delete answer', %q{
 
     expect(page).to_not have_selector(:link_or_button, 'Delete answer')
   end
-
 end

@@ -4,7 +4,7 @@
       =render :partial =>  'question', locals: { question: @question }
 
   .answers
-    - @question.answers.each do |answer|
+    - @question.answers.order(:best, :created_at).each do |answer|
       =render :partial =>  'answer', locals: { answer: answer }
 
   - if user_signed_in?
