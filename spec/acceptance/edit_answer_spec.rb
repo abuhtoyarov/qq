@@ -31,7 +31,6 @@ feature 'Answer editing', %q{
 
     scenario 'Try to edit his answer', js: true do
       within '.answers' do
-        save_and_open_page
         click_on 'Edit'
         fill_in 'Answer', with: 'edited answer'
         click_on 'Save'

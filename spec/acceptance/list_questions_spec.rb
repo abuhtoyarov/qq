@@ -9,11 +9,8 @@ feature 'View questions', %q{
   given!(:question) { create_list(:question, 2) }
 
   scenario 'Any user may view the list of questions' do
-
     visit questions_path
 
     question.each { |q| expect(page).to have_content q.title }
-
   end
-
 end

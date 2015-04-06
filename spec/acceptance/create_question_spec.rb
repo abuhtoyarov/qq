@@ -13,6 +13,7 @@ feature 'Create question', %q{
     sign_in(user)
 
     visit questions_path
+
     click_on 'Ask question'
     fill_in 'Title', with:'Title question'
     fill_in 'Body', with:'body text'
@@ -21,11 +22,11 @@ feature 'Create question', %q{
     expect(page).to have_content 'Your question successfully created.'
     expect(page).to have_content 'Title question'
     expect(page).to have_content 'body text'
-
   end
 
   scenario 'Non-authenticated user ties to created questions' do
     visit questions_path
+
     click_on 'Ask question'
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
