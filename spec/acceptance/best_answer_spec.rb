@@ -7,7 +7,7 @@ feature 'Best answers', %q{
 } do
 
   given(:user) { create(:user) }
-  given(:wrong_user) { create(:user) }
+  given(:other_user) { create(:user) }
   given!(:question) { create(:question, user: user) }
   given!(:answer) { create(:answer, question: question, user: user ) }
 
@@ -22,6 +22,34 @@ feature 'Best answers', %q{
 
     within '.panel-success' do
       expect(page).to have_content answer.body
+      expect(page).to_not have_link 'Accept'
+    end
+  end
+
+    scenario 'Authenticated user sees Accept link' do
+      sign_in user
+
+      visit question_path(question)
+
+      within '.panel-default' do
+        expect(page).to have_content answer.body
+        expect(page).to have_link 'Accept'
+      end
+    end
+
+    scenario 'Non-Authenticated user not sees accept link' do
+      visit question_path(question)
+
+      within '.panel-default' do
+        expect(page).to_not have_link 'Accept'
+      end
+    end
+
+  scenario 'Authenticated (Non-Author) user not sees accept link' do
+    sign_in other_user
+    visit question_path(question)
+
+    within '.panel-default' do
       expect(page).to_not have_link 'Accept'
     end
   end
