@@ -22,6 +22,7 @@ feature 'Answer editing', %q{
       sign_in user
       visit question_path(question)
     end
+
     scenario 'User sees link Edit' do
       within '.answers' do
         expect(page).to have_link 'Edit'
@@ -29,7 +30,8 @@ feature 'Answer editing', %q{
     end
 
     scenario 'Try to edit his answer', js: true do
-      within '.answer' do
+      within '.answers' do
+        save_and_open_page
         click_on 'Edit'
         fill_in 'Answer', with: 'edited answer'
         click_on 'Save'

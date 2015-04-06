@@ -17,7 +17,7 @@ feature 'Owner may delete answer', %q{
 
     visit question_path(question)
 
-    within '.answer' do
+    within '.answers' do
       click_link 'Delete answer'
 
       expect(page).to_not have_content answer.body

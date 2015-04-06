@@ -4,7 +4,7 @@
       div class=(answer.best ? 'panel panel-success' : 'panel panel-default')
         div class="panel-heading"
           .answer id=answer.id
-            strong= current_user.email
+            strong= User.find_by(id: answer.user_id).email
             span class="text-muted"
         .panel-body
           =answer.body
