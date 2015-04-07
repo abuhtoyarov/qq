@@ -3,7 +3,7 @@
     .col-sm-12
       =render :partial =>  'question', locals: { question: @question }
 
-  .answers
+  .answers data-type-answer=(@question.answers.exists?(best:true) ? 'accept' : 'default')
     - @question.answers.order(:best, :created_at).each do |answer|
       =render :partial =>  'answer', locals: { answer: answer }
 

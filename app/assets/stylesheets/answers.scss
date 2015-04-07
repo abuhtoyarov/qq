@@ -5,10 +5,9 @@
   display: none;
 }
 
-.panel-success a.accept-answer-link {
+div [data-type-answer="accept"] a.accept-answer-link, .panel-success a.accept-answer-link{
   display: none;
 }
-
 
 .panel {
   position:relative;
