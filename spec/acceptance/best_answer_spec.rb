@@ -53,4 +53,19 @@ feature 'Best answers', %q{
       expect(page).to_not have_link 'Accept'
     end
   end
+  
+  scenario 'Author question accept the best answer', js: true do
+    sign_in user
+
+    visit question_path(question)
+
+    click_on 'Accept'
+
+    visit question_path(question)
+
+    within '.panel-success' do
+      expect(page).to have_content answer.body
+      expect(page).to_not have_link 'Accept'
+    end
+  end
 end
