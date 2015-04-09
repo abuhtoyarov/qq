@@ -9,62 +9,68 @@ feature 'Best answers', %q{
   given(:user) { create(:user) }
   given(:other_user) { create(:user) }
   given!(:question) { create(:question, user: user) }
-  given!(:answer) { create(:answer, question: question, user: user ) }
+  given!(:answer) { create(:answer, question: question, user: user) }
+  given(:accepted_answer) { create(:answer, question: question, user: user, body: "Accepted answer", best:true ) }
+  given!(:answers) { create_list(:answer, 3, question: question, user: user ) }
 
-  scenario 'Author question accept the best answer', js: true do
+
+  scenario 'Accepted answer first in list answers on page', js: true do
     sign_in user
 
     visit question_path(question)
+    within "#answer#{answer.id}" do
+      click_on 'Accept'
+    end
 
-    click_on 'Accept'
+    first_answer_on_page = page.first(:css, '.answers .row')
+    expect(page).to have_selector('.answer', count: 4)
+    expect(first_answer_on_page).to have_content answer.body
+  end
+
+  scenario 'Authenticated (Author question) user mark choose other answer as accepted ', js: true do
+    sign_in user
+    accepted_answer
 
     visit question_path(question)
+     within "#answer#{answer.id}" do
+      click_on 'Accept'
+    end
 
-    within '.panel-success' do
+    within ".panel-success}" do
       expect(page).to have_content answer.body
+      expect(page).to_not have_content accepted_answer.body
+    end
+
+    first_answer_on_page = page.first(:css, '.answers .row')
+
+    expect(first_answer_on_page).to have_content answer.body
+
+  end
+
+  scenario 'Authenticated user (Author) mark the answer as accepted', js: true do
+    sign_in user
+
+    visit question_path(question)
+    within "#answer#{answer.id}" do
+      click_on 'Accept'
+    end
+
+    expect(page).to have_selector('.panel-success')
+  end
+
+  scenario 'Non-authenticated user not sees link accept', js: true do
+    visit question_path(question)
+
+    within "#answer#{answer.id}" do
       expect(page).to_not have_link 'Accept'
     end
   end
 
-    scenario 'Authenticated user sees Accept link' do
-      sign_in user
-
-      visit question_path(question)
-
-      within '.panel-default' do
-        expect(page).to have_content answer.body
-        expect(page).to have_link 'Accept'
-      end
-    end
-
-    scenario 'Non-Authenticated user not sees accept link' do
-      visit question_path(question)
-
-      within '.panel-default' do
-        expect(page).to_not have_link 'Accept'
-      end
-    end
-
-  scenario 'Authenticated (Non-Author) user not sees accept link' do
+  scenario 'Authenticated user (non-author question) not sees link accept', js: true do
     sign_in other_user
     visit question_path(question)
 
-    within '.panel-default' do
-      expect(page).to_not have_link 'Accept'
-    end
-  end
-  
-  scenario 'Author question accept the best answer', js: true do
-    sign_in user
-
-    visit question_path(question)
-
-    click_on 'Accept'
-
-    visit question_path(question)
-
-    within '.panel-success' do
-      expect(page).to have_content answer.body
+    within "#answer#{answer.id}" do
       expect(page).to_not have_link 'Accept'
     end
   end

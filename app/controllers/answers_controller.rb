@@ -24,6 +24,13 @@ class AnswersController < ApplicationController
     @question = @answer.question
   end
 
+  def accept
+    @answer = Answer.find(params[:id])
+    @question = Question.find(params[:question_id])
+    @question.answers.update_all(best:nil)
+    @answer.update(answer_params)
+  end
+
   private
 
   def answer_params

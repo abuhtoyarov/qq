@@ -7,7 +7,11 @@ Rails.application.routes.draw do
   # root 'welcome#index'
   root to: "questions#index"
   resources :questions do
-    resources :answers
+    resources :answers do
+      member do
+        patch 'accept'
+      end
+    end
   end
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

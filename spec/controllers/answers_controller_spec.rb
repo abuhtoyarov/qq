@@ -3,6 +3,7 @@ require_relative '../../spec/acceptance/acceptance_helper'
 RSpec.describe AnswersController, type: :controller do
   let!(:question){ create(:question) }
   let(:answer) { create(:answer, question: question) }
+  let(:accepted_answer) { create(:answer, question: question) }
 
   describe 'POST #create' do
     sign_in_user
@@ -78,7 +79,22 @@ RSpec.describe AnswersController, type: :controller do
       patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
       expect(response).to render_template :update
     end
+
+    it 'Accepted answer' do
+      patch :accept, id: answer, question_id: question, answer: {body: 'new body', best: true} , format: :js
+      answer.reload
+      expect(answer.best).to eq true
+    end
+
+    it 'Replace accept answer' do
+        patch :accept, id: accepted_answer, question_id: question, answer: {body: 'new body', best: true} , format: :js
+        accepted_answer.reload
+        expect(accepted_answer.best).to eq true
+        patch :accept, id: answer, question_id: question, answer: {body: 'new body123', best: true} , format: :js
+        answer.reload
+        expect(answer.best).to eq true
+        accepted_answer.reload
+        expect(accepted_answer.best).to_not eq true
+    end
   end
-
-
 end
