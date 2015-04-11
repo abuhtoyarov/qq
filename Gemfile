@@ -25,6 +25,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'devise'
 gem 'carrierwave'
 gem 'nested_form'
+gem 'remotipart'
 
 gem 'slim-rails'
 # Use ActiveModel has_secure_password

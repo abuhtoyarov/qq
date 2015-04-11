@@ -10,6 +10,7 @@ class AnswersController < ApplicationController
 
   def new
     @answer = Answer.new
+    @answer.attachments.new
   end
 
   def destroy
@@ -34,6 +35,6 @@ class AnswersController < ApplicationController
   private
 
   def answer_params
-    params.require(:answer).permit(:body, :best)
+    params.require(:answer).permit(:body, :best, attachments_attributes: [:file])
   end
 end
