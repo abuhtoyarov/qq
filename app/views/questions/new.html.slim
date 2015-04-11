@@ -4,8 +4,7 @@
   = f.label :body
   = f.text_area :body
   = f.fields_for :attachments do |a|
-    p Attachments:
-    p
-    = a.label :file
-    = a.file_field :file
+      = a.label :file
+      = a.file_field :file
+  p= f.link_to_add 'Add attachment', :attachments
   = f.submit 'Create question'
