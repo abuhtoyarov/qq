@@ -16,7 +16,6 @@ feature 'Delete attachments from question', %q{
 
   scenario 'Authenticated user (Author question) delete attachments from question', js: true do
     click_on 'Edit'
-    save_and_open_page
     click_on 'Remove this file'
     click_on 'Save'
 
