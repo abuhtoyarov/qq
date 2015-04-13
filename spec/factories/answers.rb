@@ -10,10 +10,18 @@ FactoryGirl.define do
     user
   end
 
+  factory :answer_with_attach, class: "Answer" do
+    sequence(:body) {|n| "Answer ##{n}"}
+    question
+    user
+    after(:create) do |answer, eval|
+      create(:attachment, attachable: answer)
+    end
+  end
+
   factory :invalid_answer, class: "Answer" do
     user
     question
     body nil
   end
-
 end

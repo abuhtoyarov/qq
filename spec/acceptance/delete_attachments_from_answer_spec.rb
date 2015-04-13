@@ -8,20 +8,22 @@ feature 'Delete attachments from answer', %q{
 
   given(:user) { create(:user) }
   given!(:question) { create(:question, user: user) }
+  given!(:answer) { create(:answer_with_attach, question: question, user: user) }
 
   background do
     sign_in user
     visit question_path(question)
-    fill_in 'Body', with: 'body'
-    attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
-    click_on 'Answer'
   end
 
   scenario 'Authenticated user (Author answer) delete attachments from answer', js: true do
-    within '.Attachments' do
-      click_on 'Delete'
+    within '.answers' do
+      click_on 'Edit'
     end
+    click_on 'Remove this file'
 
-    expect(page).to_not have_link 'rails_helper.rb'
+    click_on 'Save'
+    within '.answers' do
+      expect(page).to_not have_link 'file.rb'
+    end
   end
 end

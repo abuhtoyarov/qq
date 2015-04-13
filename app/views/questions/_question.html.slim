@@ -6,9 +6,13 @@
       li= link_to a.file.identifier, a.file.url
   - if user_signed_in? && question.user_id == current_user.id
     p= link_to 'Edit', '', class: 'edit-question-link', data: {question_id: question.id}
-    = form_for question, remote: true do |f|
+    = nested_form_for question, remote: true do |f|
       = f.label :title
       = f.text_field :title
       = f.label :body
       = f.text_area :body
+      = f.fields_for :attachments do |a|
+          =a.label :file
+          =a.text_field :file
+          p= a.link_to_remove 'Remove this file'
       = f.submit 'Save'
