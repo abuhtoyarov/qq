@@ -15,8 +15,12 @@ FactoryGirl.define do
     user
     sequence(:title) { |n| "Title #{n}" }
     sequence(:body) { |n| "Body #{n}" }
+    transient do
+      count_attachments 2
+    end
+
     after(:create) do |question, eval|
-      create(:attachment, attachable: question)
+      create_list(:attachment, eval.count_attachments, attachable: question)
     end
   end
 

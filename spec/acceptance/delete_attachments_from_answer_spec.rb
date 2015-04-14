@@ -19,7 +19,8 @@ feature 'Delete attachments from answer', %q{
     within '.answers' do
       click_on 'Edit'
     end
-    click_on 'Remove this file'
+
+    all('.edit_answer .fields').each { |file| file.click_on 'Remove this file' }
 
     click_on 'Save'
     within '.answers' do

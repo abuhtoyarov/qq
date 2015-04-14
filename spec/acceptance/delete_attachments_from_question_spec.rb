@@ -16,7 +16,9 @@ feature 'Delete attachments from question', %q{
 
   scenario 'Authenticated user (Author question) delete attachments from question', js: true do
     click_on 'Edit'
-    click_on 'Remove this file'
+
+    all('.edit_question .fields').each { |file| file.click_on 'Remove this file' }
+
     click_on 'Save'
 
     expect(page).to_not have_link 'file.rb'
