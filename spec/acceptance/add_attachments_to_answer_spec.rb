@@ -21,4 +21,19 @@ feature 'Add attachments to answer', %q{
 
     expect(page).to have_link 'rails_helper.rb'
   end
+
+  scenario 'Authenticated user (Author answer) add two attachments to answer', js: true do
+    fill_in 'Body', with: 'body'
+    attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
+    click_on 'Add attachment'
+
+    next_file =  all('.new_answer .fields').last
+    next_file.attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
+
+    click_on 'Answer'
+
+    expect(page).to have_link 'rails_helper.rb'
+    expect(page).to have_link 'spec_helper.rb'
+  end
+
 end
