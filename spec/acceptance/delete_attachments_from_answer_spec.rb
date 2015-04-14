@@ -15,7 +15,7 @@ feature 'Delete attachments from answer', %q{
     visit question_path(question)
   end
 
-  scenario 'Authenticated user (Author answer) delete attachments from answer', js: true do
+  scenario 'Authenticated user (Author answer) delete two attachments from answer', js: true do
     within '.answers' do
       click_on 'Edit'
     end
