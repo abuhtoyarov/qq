@@ -1,0 +1,38 @@
+.row id="answer#{@answer.id}"
+  div class="answer panel panel-default"
+    .panel-heading
+      strong #{@answer.user_email}
+    .panel-body
+      | #{@answer.body}
+      p
+        a href=@answer.answer_path data-remote="true" rel="nofollow" data-method="delete" Delete answer
+      p
+        a class="edit-answer-link" data-answer-id=@answer.id href="" Edit
+      - if @answer.user_signed_in && @answer.user_id == @answer.question_user_id
+        p
+          a class="accept-answer-link" data-remote="true" rel="nofollow" data-answer-id=@answer.id href="#{@answer.accept_answer_path}?answer%5Bbest%5D=true" data-method="patch" Accept
+      - if @answer.attachments.length > 0
+        p Attachments:
+        ul
+          - for attachment in @answer.attachments
+            li
+              a href=attachment.url #{attachment.name}
+      p
+      form class="edit_answer" id="edit_answer_#{@answer.id}" action=@answer.answer_path accept-charset="UTF-8" data-remote="true" method="post"
+        input name="utf8" type="hidden" value="✓"
+        input type="hidden" name="_method" value="patch"
+        label for="answer_body" Answer
+        textarea name="answer[body]" id="answer_body" =@answer.body
+
+
+        - if @answer.attachments.length > 0
+
+            - for attachment,i in @answer.attachments
+              div class="fields"
+                label for="answer_attachments_attributes_#{i}_file" File
+                input type="text" value=attachment.name name="answer[attachments_attributes][#{i}][file]" id="answer_attachments_attributes_#{i}_file"
+                p
+                  input type="hidden" value="false" name="answer[attachments_attributes][#{i}][_destroy]" id="answer_attachments_attributes_#{i}__destroy"
+                  a class="remove_nested_fields" data-association="attachments" href="javascript:void(0)" Remove this file
+                input type="hidden" value=attachment.id name="answer[attachments_attributes][#{i}][id]" id="answer_attachments_attributes_#{i}_id"
+        input type="submit" name="commit" value="Save"

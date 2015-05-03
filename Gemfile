@@ -27,7 +27,9 @@ gem 'carrierwave'
 gem 'nested_form', :git => 'https://github.com/ryanb/nested_form.git'
 gem 'remotipart'
 
+
 gem 'slim-rails'
+gem 'skim'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

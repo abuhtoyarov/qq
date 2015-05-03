@@ -8,7 +8,7 @@
       =render :partial =>  'answer', locals: { answer: answer }
 
   - if user_signed_in?
-    = nested_form_for [@question, @answer], remote: true do |f|
+    = nested_form_for [@question, @answer], data: {type: :json}, remote: true do |f|
       = f.label :body
       .answer-errors
       = f.text_area :body
