@@ -3,6 +3,7 @@
     div class=(answer.best ? 'answer panel panel-success' : 'answer panel panel-default')
         .panel-heading
           strong= User.find_by(id: answer.user_id).email
+          span class="glyphicon glyphicon-chevron-up" aria-hidden="true"
         .panel-body
           =answer.body
           - if user_signed_in? && answer.user_id == current_user.id
