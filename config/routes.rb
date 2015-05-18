@@ -6,8 +6,17 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
   root to: "questions#index"
-  resources :questions do
-    resources :answers do
+
+  concern :votable do
+    member do
+      patch :like
+      patch :dislike
+      patch :unvote
+    end
+  end
+
+  resources :questions, concerns: :votable do
+    resources :answers, concerns: :votable do
       member do
         patch 'accept'
       end

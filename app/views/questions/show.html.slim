@@ -1,22 +1,21 @@
 .container
-  .row
-    .col-sm-12
+
       =render :partial =>  'question', locals: { question: @question }
 
-  .answers data-type-answer=(@question.answers.exists?(best:true) ? 'accept' : 'default')
-    - @question.answers.order(:best, :created_at).each do |answer|
-      =render :partial =>  'answer', locals: { answer: answer }
+      .answers data-type-answer=(@question.answers.exists?(best:true) ? 'accept' : 'default')
+        - @question.answers.order(:best, :created_at).each do |answer|
+          =render :partial =>  'answer', locals: { answer: answer }
 
-  - if user_signed_in?
-    = nested_form_for [@question, @answer], data: {type: :json}, remote: true do |f|
-      = f.label :body
-      .answer-errors
-      = f.text_area :body
-      = f.fields_for :attachments do |a|
-        = a.label :file
-        = a.file_field :file
-      p= f.link_to_add 'Add attachment', :attachments
-      = f.submit 'Answer'
+      - if user_signed_in?
+        = nested_form_for [@question, @answer], data: {type: :json}, remote: true do |f|
+          = f.label :body
+          .answer-errors
+          = f.text_area :body
+          = f.fields_for :attachments do |a|
+            = a.label :file
+            = a.file_field :file
+          p= f.link_to_add 'Add attachment', :attachments
+          = f.submit 'Answer'
 
-  - if user_signed_in? && @question.user_id == current_user.id
-    p= link_to 'Delete', @question, method: :delete
+      - if user_signed_in? && @question.user_id == current_user.id
+        p= link_to 'Delete', @question, method: :delete

@@ -3,6 +3,7 @@ class QuestionsController < ApplicationController
   before_action :load_question, only: [:show, :update, :destroy]
   before_action :authenticate_user!, except: [:index, :show]
 
+  include Voted
 
   def index
     @question = Question.all

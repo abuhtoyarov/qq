@@ -1,4 +1,7 @@
 class Answer < ActiveRecord::Base
+
+  include Votable
+
   validates :body, presence: true
   belongs_to :question
   has_many :attachments, as: :attachable

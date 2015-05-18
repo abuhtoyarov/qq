@@ -1,29 +1,32 @@
 - if answer.persisted?
   .row id="answer#{answer.id}"
-    div class=(answer.best ? 'answer panel panel-success' : 'answer panel panel-default')
-        .panel-heading
-          strong= User.find_by(id: answer.user_id).email
-          span class="glyphicon glyphicon-chevron-up" aria-hidden="true"
-        .panel-body
-          =answer.body
-          - if user_signed_in? && answer.user_id == current_user.id
-            p= link_to 'Delete answer',[@question, answer], remote: true, method: :delete
-            p= link_to 'Edit', '', class: 'edit-answer-link', data: {answer_id: answer.id}
-            - if user_signed_in? && @question.user_id == current_user.id
-              p= link_to 'Accept', accept_question_answer_path(@question, answer, 'answer[best]':true), class: 'accept-answer-link', remote: true, method: :patch
-          .Attachments
-            -if answer.attachments.exists?
-              p Attachments:
-              ul
-                - answer.attachments.each do |a|
-                  li= link_to a.file.identifier, a.file.url
-            p
-              = nested_form_for [@question, answer], remote: true do |f|
-                = f.label :body, "Answer"
-                = f.text_area :body
-                = f.fields_for :attachments do |a|
-                    =a.label :file
-                    =a.text_field  :file
-                    p= a.link_to_remove 'Remove this file'
-                = f.submit "Save"
+    .col-md-2
+      = render 'answers/votes_show', votable: answer
+    .col-md-10
+
+      div class=(answer.best ? 'answer panel panel-success' : 'answer panel panel-default')
+          .panel-heading
+            strong= User.find_by(id: answer.user_id).email
+          .panel-body
+            =answer.body
+            - if user_signed_in? && answer.user_id == current_user.id
+              p= link_to 'Delete answer',[@question, answer], remote: true, method: :delete
+              p= link_to 'Edit', '', class: 'edit-answer-link', data: {answer_id: answer.id}
+              - if user_signed_in? && @question.user_id == current_user.id
+                p= link_to 'Accept', accept_question_answer_path(@question, answer, 'answer[best]':true), class: 'accept-answer-link', remote: true, method: :patch
+            .Attachments
+              -if answer.attachments.exists?
+                p Attachments:
+                ul
+                  - answer.attachments.each do |a|
+                    li= link_to a.file.identifier, a.file.url
+              p
+                = nested_form_for [@question, answer], remote: true do |f|
+                  = f.label :body, "Answer"
+                  = f.text_area :body
+                  = f.fields_for :attachments do |a|
+                      =a.label :file
+                      =a.text_field  :file
+                      p= a.link_to_remove 'Remove this file'
+                  = f.submit "Save"
 

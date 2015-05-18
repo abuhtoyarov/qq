@@ -1,0 +1,25 @@
+div class="vote"
+  - if current_user
+    - if votable.votes.where(user_id: current_user.id).exists?
+      ul class="list-group"
+        li class="list-group-item"
+          = p "your vote"
+          span class='badge' =votable.votes.find_by(user_id: current_user.id).rating
+        li class="list-group-item" =votable.rating
+        li class="list-group-item"
+          = link_to "un vote", unvote_question_answer_path(@question, votable), remote: true, method: :patch
+    - else
+      ul class="list-group"
+        li class="list-group-item"
+          - if votable.user_id != current_user.id
+            = link_to "up vote", like_question_answer_path(@question, votable), remote: true, method: :patch
+            span class='badge' =votable.votes.where(rating: 1).count
+          - else
+            a tabindex="0" class="btn" data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="And here's some amazing content. It's very engaging. Right?" up vote
+        li class="list-group-item" =votable.rating
+        li class="list-group-item"
+          - if votable.user_id != current_user.id
+            = link_to "down vote", dislike_question_answer_path(@question, votable), remote: true, method: :patch
+            span class='badge' =votable.votes.where(rating: -1).count
+          - else
+            a tabindex="0" class="btn" data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="And here's some amazing content. It's very engaging. Right?" down vote

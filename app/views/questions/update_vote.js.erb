@@ -1,0 +1,1 @@
+$('#<%= @votable.id %> .vote').replaceWith('<%= j render :partial =>  'votes_show', locals: { votable: @votable } %>')

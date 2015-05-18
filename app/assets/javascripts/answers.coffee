@@ -7,6 +7,8 @@ ready = ->
     $(this).hide();
     answer_id = $(this).data('answer-id')
     $('form#edit_answer_' + answer_id).show()
+  $('.btn').popover()
+
 
 createAnswerSuccess = (e, data, status, xhr) ->
   answer = $.parseJSON(xhr.responseText)

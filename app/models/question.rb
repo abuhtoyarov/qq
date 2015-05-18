@@ -1,5 +1,7 @@
 class Question < ActiveRecord::Base
 
+  include Votable
+
   validates :title, :body, presence: true
   has_many :answers, dependent: :destroy
   has_many :attachments, as: :attachable

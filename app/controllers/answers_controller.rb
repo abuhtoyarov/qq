@@ -4,6 +4,8 @@ class AnswersController < ApplicationController
   before_action :load_question
   before_action :authenticate_user!, any: [:new, :create, :update, :accept]
 
+  include Voted
+
   def create
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
@@ -26,6 +28,9 @@ class AnswersController < ApplicationController
   def destroy
     @answer = @question.answers.find(params[:id])
     @answer.destroy
+  end
+
+  def show
   end
 
   def update
