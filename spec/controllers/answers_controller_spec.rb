@@ -96,5 +96,25 @@ RSpec.describe AnswersController, type: :controller do
         accepted_answer.reload
         expect(accepted_answer.best).to_not eq true
     end
+
+    it 'Like answer' do
+      patch :like, id: answer, question_id: question, answer: {body: 'new body'} , format: :js
+      answer.reload
+      expect(answer.rating).to eq 1
+    end
+
+    it 'DisLike answer' do
+      patch :dislike, id: answer, question_id: question, answer: {body: 'new body'} , format: :js
+      answer.reload
+      expect(answer.rating).to eq -1
+    end
+
+    it 'Unvote answer' do
+      patch :like, id: answer, question_id: question, answer: {body: 'new body'} , format: :js
+      expect(answer.rating).to eq 1
+      patch :unvote, id: answer, question_id: question, answer: {body: 'new body'} , format: :js
+      answer.reload
+      expect(answer.rating).to eq 0
+    end
   end
 end

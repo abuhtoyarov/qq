@@ -107,5 +107,25 @@ RSpec.describe QuestionsController, type: :controller do
       patch :update, id: question, question: attributes_for(:question), format: :js
       expect(response).to render_template :update
     end
+
+    it 'Like question' do
+      patch :like, id: question, question: attributes_for(:question), format: :js
+      question.reload
+      expect(question.rating).to eq 1
+    end
+
+    it 'DisLike question' do
+      patch :dislike, id: question, question: attributes_for(:question), format: :js
+      question.reload
+      expect(question.rating).to eq -1
+    end
+
+    it 'Unvote question' do
+      patch :like, id: question, question: attributes_for(:question), format: :js
+      expect(question.rating).to eq 1
+      patch :unvote, id: question, question: attributes_for(:question), format: :js
+      question.reload
+      expect(question.rating).to eq 0
+    end
   end
 end
