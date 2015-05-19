@@ -15,11 +15,11 @@ div class="vote"
             = link_to "up vote", like_question_answer_path(@question, votable), remote: true, method: :patch
             span class='badge' =votable.votes.where(rating: 1).count
           - else
-            =link_to 'up vote', '#', :tabindex => "0", :class => "btn", :data => {:toggle =>"popover", :trigger => "focus", :content => "Ups"}, :title => "Dismissible popover"
+            =link_to 'up vote', '#', :tabindex => "0", :class => "btn", :data => {:toggle =>"popover", :trigger => "focus", :content => "The author can not vote."}, :title => "Info"
         li class="list-group-item rating-sum" =votable.rating
         li class="list-group-item"
           - if votable.user_id != current_user.id
             = link_to "down vote", dislike_question_answer_path(@question, votable), remote: true, method: :patch
             span class='badge' =votable.votes.where(rating: -1).count
           - else
-            =link_to 'down vote', '#', :tabindex => "0", :class => "btn", :data => {:toggle =>"popover", :trigger => "focus", :content => "Ups"}, :title => "Dismissible popover"
+            =link_to 'down vote', '#', :tabindex => "0", :class => "btn", :data => {:toggle =>"popover", :trigger => "focus", :content => "The author can not vote."}, :title => "Info"
