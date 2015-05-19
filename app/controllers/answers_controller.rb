@@ -36,8 +36,14 @@ class AnswersController < ApplicationController
   end
 
   def update
-    @answer.update(answer_params)
-    @question = @answer.question
+    respond_to do |format|
+      if @answer.update(answer_params)
+        format.json { render :submit }
+      else
+        format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
+      end
+      @question = @answer.question
+    end
   end
 
   def accept
