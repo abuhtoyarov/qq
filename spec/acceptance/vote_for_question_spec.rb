@@ -54,5 +54,18 @@ feature 'Liked question', %q{
     expect(page).to_not have_link 'un vote'
   end
 
+  scenario 'Authenticated user (author) try to liked question', js: true do
+    sign_in(user)
+
+    visit question_path(question)
+    click_on 'up vote'
+
+    within '.rating-sum' do
+      expect(page).to have_content 0
+    end
+    expect(page).to have_content 'The author can not vote.'
+
+  end
+
 
 end
