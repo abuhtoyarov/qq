@@ -1,4 +1,4 @@
-require_relative "acceptance_helper"
+  require_relative "acceptance_helper"
 
 feature 'Add attachments to answer', %q{
         In order to be able add attachments to answer
