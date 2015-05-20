@@ -3,6 +3,7 @@ module Voted
 
   included do
     before_action :get_votable, only: [:like, :dislike, :unvote]
+    before_action :can_vote?, only: [ :like, :dislike, :unvote ]
   end
 
   def like
@@ -24,6 +25,12 @@ module Voted
 
   def get_votable
     @votable = controller_name.classify.constantize.find(params[:id])
+  end
+
+  def can_vote?
+    if @votable.user_id == current_user.id
+      render text: 'You don\'t have permission', status: :forbidden
+    end
   end
 
 end

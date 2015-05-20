@@ -96,43 +96,68 @@ RSpec.describe AnswersController, type: :controller do
         accepted_answer.reload
         expect(accepted_answer.best).to_not eq true
     end
+  end
 
-    it 'Like answer' do
-      patch :like, id: answer, question_id: question, answer: {body: 'new body'} , format: :js
-      answer.reload
-      expect(answer.rating).to eq 1
-    end
+  describe 'PATCH #upvote' do
+    context 'authencticated user' do
+      sign_in_user
 
-    it 'DisLike answer' do
-      patch :dislike, id: answer, question_id: question, answer: {body: 'new body'} , format: :js
-      answer.reload
-      expect(answer.rating).to eq -1
-    end
+      it 'upvote answer' do
+        expect{patch :like, id: answer, question_id: question, format: :js}.to change(answer, :rating).by(1)
+      end
 
-    it 'Unvote answer' do
-      patch :like, id: answer, question_id: question, answer: {body: 'new body'} , format: :js
-      expect(answer.rating).to eq 1
-      patch :unvote, id: answer, question_id: question, answer: {body: 'new body'} , format: :js
-      answer.reload
-      expect(answer.rating).to eq 0
-    end
+      it 'repeat upvote answer' do
+        expect{patch :like, id: answer, question_id: question, format: :js}.to change(answer, :rating).by(1)
+        expect{patch :like, id: answer, question_id: question, format: :js}.to_not change(answer, :rating)
+      end
 
-    it 'Retry liked answer' do
-      patch :like, id: answer, question_id: question, answer: {body: 'new body'} , format: :js
-      answer.reload
-      expect(answer.rating).to eq 1
-      patch :like, id: answer, question_id: question, answer: {body: 'new body'} , format: :js
-      answer.reload
-      expect(answer.rating).to eq 1
+      it 'upvote answer as author' do
+        answer.update(user_id: @user.id)
+        expect{patch :like, id: answer, question_id: question, format: :js}.to_not change(answer, :rating)
+      end
     end
     
-    it 'Retry dislike answer' do
-      patch :dislike, id: answer, question_id: question, answer: {body: 'new body'} , format: :js
-      answer.reload
-      expect(answer.rating).to eq -1
-      patch :dislike, id: answer, question_id: question, answer: {body: 'new body'} , format: :js
-      answer.reload
-      expect(answer.rating).to eq -1
-    end
+    context 'non-authencticated user' do
+      it 'upvote answer' do
+        expect{patch :like, id: answer, question_id: question, format: :js}.to_not change(answer, :rating)
+      end
+    end    
   end
+
+  describe 'PATCH #downvote' do
+    context 'authencticated user' do
+      sign_in_user
+
+      it 'downvote answer' do
+        expect{patch :dislike, id: answer, question_id: question, format: :js}.to change(answer, :rating).by(-1)
+      end
+
+      it 'repeat downvote answer' do
+        expect{patch :dislike, id: answer, question_id: question, format: :js}.to change(answer, :rating).by(-1)
+        expect{patch :dislike, id: answer, question_id: question, format: :js}.to_not change(answer, :rating)
+      end
+
+      it 'downvote answer as author' do
+        answer.update(user_id: @user.id)
+        expect{patch :dislike, id: answer, question_id: question, format: :js}.to_not change(answer, :rating)
+      end
+    end
+    
+    context 'non-authencticated user' do
+      it 'downvote answer' do
+        expect{patch :dislike, id: answer, question_id: question, format: :js}.to_not change(answer, :rating)
+      end
+    end    
+  end
+
+  describe 'PATCH #unvote' do
+      sign_in_user
+
+      it 'unvote answer' do
+        patch :dislike, id: answer, question_id: question, format: :js
+        expect{patch :unvote, id: answer, question_id: question, format: :js}.to change(answer, :rating).by(1)
+        patch :like, id: answer, question_id: question, format: :js
+        expect{patch :unvote, id: answer, question_id: question, format: :js}.to change(answer, :rating).by(-1)
+      end  
+  end    
 end
