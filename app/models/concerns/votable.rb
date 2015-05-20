@@ -6,13 +6,13 @@ module Votable
   end
 
   def liked_by(user)
-    unless Vote.exists?(:user_id => user)
+    unless votes.exists?(:user_id => user.id)
       votes.create(user: user, rating: 1)
     end
   end 
   
   def disliked_by(user)
-    unless Vote.exists?(:user_id => user)
+    unless votes.exists?(:user_id => user.id)
       votes.create(user: user, rating: -1)
     end
   end
