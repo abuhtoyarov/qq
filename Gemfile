@@ -28,7 +28,8 @@ gem 'nested_form', :git => 'https://github.com/ryanb/nested_form.git'
 gem 'remotipart'
 gem 'bootstrap-sass', '~> 3.3.4'
 gem 'sass-rails', '>= 3.2'
-
+gem 'private_pub'
+gem 'thin'
 
 gem 'slim-rails'
 gem 'skim'
