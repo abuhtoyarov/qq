@@ -1,13 +1,7 @@
 .row id="answer#{@answer.id}"
   .col-md-2
     ul class="list-group"
-      li class="list-group-item"
-        a tabindex="0" class="btn" data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="And here's some amazing content. It's very engaging. Right?" up vote
       li class="list-group-item" =@answer.rating
-      li class="list-group-item"
-        a tabindex="0" class="btn" data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="And here's some amazing content. It's very engaging. Right?" down vote
-
-
   .col-md-10
     div class="answer panel panel-default"
       .panel-heading

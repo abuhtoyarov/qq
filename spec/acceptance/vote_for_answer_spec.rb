@@ -70,18 +70,27 @@ feature 'Liked answer', %q{
     end
   end
 
-  scenario 'Authenticated user (author) try to liked answer', js: true do
+  scenario 'Authenticated user (author) not sees a link up vote', js: true do
     sign_in(user)
     visit question_path(question)
 
     within '.answers' do
-      click_on 'up vote'
+      expect(page).to_not have_link 'up vote'
     end
     within '.answers .rating-sum' do
       expect(page).to have_content 0
     end
+  end
+
+  scenario 'Authenticated user (author) not sees a link down vote', js: true do
+    sign_in(user)
+    visit question_path(question)
+
     within '.answers' do
-      expect(page).to have_content 'The author can not vote.'
+      expect(page).to_not have_link 'down vote'
+    end
+    within '.answers .rating-sum' do
+      expect(page).to have_content 0
     end
   end
 
