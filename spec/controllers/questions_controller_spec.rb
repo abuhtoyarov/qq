@@ -127,5 +127,23 @@ RSpec.describe QuestionsController, type: :controller do
       question.reload
       expect(question.rating).to eq 0
     end
+
+    it 'Retry like question' do
+      patch :like, id: question, question: attributes_for(:question), format: :js
+      question.reload
+      expect(question.rating).to eq 1
+      patch :like, id: question, question: attributes_for(:question), format: :js
+      question.reload
+      expect(question.rating).to eq 1
+    end
+
+    it 'Retry dislike question' do
+      patch :dislike, id: question, question: attributes_for(:question), format: :js
+      question.reload
+      expect(question.rating).to eq -1
+      patch :dislike, id: question, question: attributes_for(:question), format: :js
+      question.reload
+      expect(question.rating).to eq -1
+    end
   end
 end

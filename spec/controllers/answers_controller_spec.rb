@@ -116,5 +116,23 @@ RSpec.describe AnswersController, type: :controller do
       answer.reload
       expect(answer.rating).to eq 0
     end
+
+    it 'Retry liked answer' do
+      patch :like, id: answer, question_id: question, answer: {body: 'new body'} , format: :js
+      answer.reload
+      expect(answer.rating).to eq 1
+      patch :like, id: answer, question_id: question, answer: {body: 'new body'} , format: :js
+      answer.reload
+      expect(answer.rating).to eq 1
+    end
+    
+    it 'Retry dislike answer' do
+      patch :dislike, id: answer, question_id: question, answer: {body: 'new body'} , format: :js
+      answer.reload
+      expect(answer.rating).to eq -1
+      patch :dislike, id: answer, question_id: question, answer: {body: 'new body'} , format: :js
+      answer.reload
+      expect(answer.rating).to eq -1
+    end
   end
 end

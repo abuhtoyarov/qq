@@ -13,8 +13,10 @@ class AnswersController < ApplicationController
     respond_to do |format|
       if @answer.save
         format.json { render :submit }
+        format.js
       else
         format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
+        format.js
       end
     end
   end
@@ -37,8 +39,10 @@ class AnswersController < ApplicationController
     respond_to do |format|
       if @answer.update(answer_params)
         format.json { render :submit }
+        format.js
       else
         format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
+        format.js
       end
       @question = @answer.question
     end
