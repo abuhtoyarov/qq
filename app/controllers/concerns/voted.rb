@@ -24,7 +24,6 @@ module Voted
 
   def get_votable
     @votable = controller_name.classify.constantize.find(params[:id])
-    votable = controller_name.classify.constantize.find(params[:id])
   end
 
 end
