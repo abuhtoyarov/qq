@@ -9,9 +9,17 @@ ready = ->
     $('form#edit_answer_' + answer_id).show()
   $('.btn').popover()
 
-createAnswerSuccess = (e, data, status, xhr) ->
-  answer = $.parseJSON(xhr.responseText)
-  $('.answers').append(JST["templates/answer/create"]({answer: answer}))
+#createAnswerSuccess = (e, data, status, xhr) ->
+#  answer = $.parseJSON(xhr.responseText)
+#
+#  $('.answers').append(JST["templates/answer/create"]({answer: answer}))
+
+  questionId = $('.answers').data('questionId');
+  channel = '/questions/' + questionId + '/answers'
+  PrivatePub.subscribe channel, (data, channel) ->
+    answer = $.parseJSON(data['answer'])
+    $('.answers').append(JST["templates/answer/create"]({answer: answer}))
+
 
 editAnswerSuccess = (e, data, status, xhr) ->
   answer = $.parseJSON(xhr.responseText)
@@ -27,7 +35,7 @@ $(document).ready(ready) # "вешаем" функцию ready на событи
 $(document).on('page:load', ready)  # "вешаем" функцию ready на событие page:load
 $(document).on('page:update', ready) # "вешаем" функцию ready на событие page:update
 
-$(document).on 'ajax:success', 'form.new_answer', createAnswerSuccess
+#$(document).on 'ajax:success', 'form.new_answer', createAnswerSuccess
 $(document).on 'ajax:error', 'form.new_answer', errorAnswer
 
 $(document).on 'ajax:success', 'form.edit_answer', editAnswerSuccess

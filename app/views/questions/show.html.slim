@@ -2,7 +2,7 @@
 
       =render :partial =>  'question', locals: { question: @question }
 
-      .answers data-type-answer=(@question.answers.exists?(best:true) ? 'accept' : 'default')
+      .answers data={question_id: "#{@question.id}"} data-type-answer=(@question.answers.exists?(best:true) ? 'accept' : 'default')
         - @question.answers.order(:best, :created_at).each do |answer|
           =render :partial =>  'answer', locals: { answer: answer }
 
@@ -19,3 +19,4 @@
 
       - if user_signed_in? && @question.user_id == current_user.id
         p= link_to 'Delete', @question, method: :delete
+= subscribe_to "/questions/#{@question.id}/answers"
