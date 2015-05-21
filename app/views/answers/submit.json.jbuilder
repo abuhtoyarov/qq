@@ -1,4 +1,4 @@
-json.(@answer, :id, :body, :best, :user_id, :rating)
+json.(@answer, :id, :body, :best, :user_id, :rating))
 
 json.user_signed_in user_signed_in?
 json.current_user_id  current_user.id

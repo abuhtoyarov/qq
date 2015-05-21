@@ -1,0 +1,4 @@
+<% publish_to "/index" do %>
+    $('.questions').append('<%= j render :partial =>  'question', locals: {question: @question} %>')
+    console.log('test')
+<% end %>

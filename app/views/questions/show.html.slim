@@ -1,6 +1,6 @@
 .container
 
-      =render :partial =>  'question', locals: { question: @question }
+      =render :partial =>  'answers/question', locals: { question: @question }
 
       .answers data={question_id: "#{@question.id}"} data-type-answer=(@question.answers.exists?(best:true) ? 'accept' : 'default')
         - @question.answers.order(:best, :created_at).each do |answer|

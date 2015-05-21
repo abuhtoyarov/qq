@@ -2,8 +2,8 @@ p= link_to 'Ask question', new_question_path
 
 
 h1 Questions list
-- @question.each do |question|
-  p= link_to question.title, question_path(question)
+.questions
+	- @question.each do |question|
+	  =render :partial =>  'question', locals: { question: question }
 
-
-
+= subscribe_to "/index"
