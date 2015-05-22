@@ -7,7 +7,17 @@ ready = ->
     $(this).hide();
     answer_id = $(this).data('answer-id')
     $('form#edit_answer_' + answer_id).show()
-  $('.btn').popover()
+
+  $('.add-comment-link').click (e) ->
+    e.preventDefault();
+    $(this).hide();
+    $('form#new_comment').show()
+
+  $('.edit-comment-link').click (e) ->
+    e.preventDefault();
+    $(this).hide();
+    comment_id = $(this).data('comment-id')
+    $('form#edit_comment_' + comment_id).show()
 
 #createAnswerSuccess = (e, data, status, xhr) ->
 #  answer = $.parseJSON(xhr.responseText)

@@ -1,14 +1,13 @@
 require_relative 'acceptance_helper'
 
-feature 'Create comment on answer', %q{
+feature 'Create comment on question', %q{
         In order to help user
         As an authenticated user
         I want to be able create comment
 } do
 
   given(:user) { create(:user) }
-  given(:question) { create(:question) }
-  given!(:answer) { create(:answer, question: question, user: user ) }
+  given!(:question) { create(:question) }
 
   scenario 'Authenticated user creates comment', js: true do
     sign_in(user)
@@ -20,7 +19,7 @@ feature 'Create comment on answer', %q{
 
     expect(current_path).to eq question_path(question)
 
-    within '.answers .comments' do
+    within '.question .comments' do
       expect(page).to have_content 'new comment'
     end
   end

@@ -31,12 +31,13 @@
                   = f.submit "Save"
       .comments id="commentable-id-#{answer.id}"
         - answer.comments.each do |comment|
-          .comment id=comment.id
-            = render 'comments/comment', commentable: comment
+          = render 'comments/comment', commentable: comment
       .comment-errors
-      = nested_form_for [answer, answer.comments.build], remote: true do |f|
-        = f.label :body, "Comment"
-        = f.text_area :body
-        = f.submit "Add comment"
+      - if user_signed_in?
+        p=link_to 'add a comment', '', class: 'add-comment-link'
+        = nested_form_for [answer, answer.comments.build], remote: true do |f|
+          = f.label :body, "Comment"
+          p= f.text_area :body
+          p= f.submit "Add comment"
 
 = subscribe_to "/questions/#{@question.id}/answers/#{@answer.id}"

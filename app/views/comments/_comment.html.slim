@@ -1,2 +1,10 @@
-hr
-p= commentable.body
+.comment id="comment#{commentable.id}"
+  hr
+  p= commentable.body
+  - if user_signed_in? && commentable.user_id == current_user.id
+    small= link_to ' delete comment ',[commentable], remote: true, method: :delete
+    small= link_to ' edit comment ','', class: 'edit-comment-link', data: {comment_id: commentable.id}
+    = nested_form_for [commentable], remote: true do |f|
+      = f.label :body, "Comment"
+      p= f.text_area :body
+      p= f.submit "Save comment"
