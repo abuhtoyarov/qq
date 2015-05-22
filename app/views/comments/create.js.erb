@@ -1,1 +1,19 @@
-$("#commentable-id-<%= @commentable.id %>").append('<%= j render :partial =>  'comments/comment', locals: {commentable: @comment} %>')
+<% if @comment.errors.present? %>
+
+    <% @comment.errors.full_messages.each do |message| %>
+    $('.comment-errors').html('<%= j message %>')
+    <% end %>
+
+<% else %>
+
+    <% if @commentable.is_a?(Answer) %>
+        <% publish_to "/questions/#{@commentable.question_id}/comments" do %>
+            $("#commentable-id-<%= @commentable.id %>").append('<%= j render :partial =>  'comments/comment', locals: {commentable: @comment} %>')
+        <% end %>
+    <% else %>
+        <% publish_to "/questions/#{@commentable.id}/comments" do %>
+        $("#commentable-id-<%= @commentable.id %>").append('<%= j render :partial =>  'comments/comment', locals: {commentable: @comment} %>')
+        <% end %>
+    <% end %>
+
+<% end %>

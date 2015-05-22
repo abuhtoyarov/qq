@@ -33,6 +33,7 @@
         - answer.comments.each do |comment|
           .comment id=comment.id
             = render 'comments/comment', commentable: comment
+      .comment-errors
       = nested_form_for [answer, answer.comments.build], remote: true do |f|
         = f.label :body, "Comment"
         = f.text_area :body

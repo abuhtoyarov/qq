@@ -20,3 +20,4 @@
       - if user_signed_in? && @question.user_id == current_user.id
         p= link_to 'Delete', @question, method: :delete
 = subscribe_to "/questions/#{@question.id}/answers"
+= subscribe_to "/questions/#{@question.id}/comments"

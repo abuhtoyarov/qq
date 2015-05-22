@@ -6,6 +6,7 @@ class CommentsController < ApplicationController
     @commentable = params[:commentable].classify.constantize.find(params[(params[:commentable].singularize + '_id')])
     @comment = @commentable.comments.new(comment_params)
     @comment.save
+
   end
 
   private
