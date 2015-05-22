@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
 
   before_action :load_answer, only: [:show, :update, :destroy, :accept]
-  before_action :load_question
+  before_action :load_question, only: [:create, :accept]
   before_action :authenticate_user!, any: [:new, :create, :update, :accept]
 
   include Voted
@@ -31,7 +31,6 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer = @question.answers.find(params[:id])
     @answer.destroy
   end
 
@@ -79,7 +78,7 @@ class AnswersController < ApplicationController
       json.user_email current_user.email
       json.question_user_id @question.user_id
 
-      json.answer_path question_answer_path(@question,@answer)
+      json.answer_path answer_path(@answer)
       json.accept_answer_path accept_question_answer_path(@question,@answer)
 
       json.attachments @answer.attachments do |attachment|

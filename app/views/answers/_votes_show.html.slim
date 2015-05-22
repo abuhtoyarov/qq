@@ -7,15 +7,15 @@ div class="vote"
           span class='badge' =votable.votes.find_by(user_id: current_user.id).rating
         li class="list-group-item rating-sum" =votable.rating
         li class="list-group-item"
-          = link_to "un vote", unvote_question_answer_path(@question, votable), remote: true, method: :patch
+          = link_to "un vote", unvote_answer_path(votable), remote: true, method: :patch
     - else
       - if votable.user_id != current_user.id
         ul class="list-group"
           li class="list-group-item" 
-            = link_to "up vote", like_question_answer_path(@question, votable), remote: true, method: :patch
+            = link_to "up vote", like_answer_path(votable), remote: true, method: :patch
           li class="list-group-item rating-sum" =votable.rating
           li class="list-group-item" 
-            = link_to "down vote", dislike_question_answer_path(@question, votable), remote: true, method: :patch
+            = link_to "down vote", dislike_answer_path(votable), remote: true, method: :patch
       - else
         ul class="list-group"
           li class="list-group-item rating-sum" =votable.rating

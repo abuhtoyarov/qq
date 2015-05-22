@@ -10,7 +10,7 @@
           .panel-body
             =answer.body
             - if user_signed_in? && answer.user_id == current_user.id
-              p= link_to 'Delete answer',[@question, answer], remote: true, method: :delete
+              p= link_to 'Delete answer',[answer], remote: true, method: :delete
               p= link_to 'Edit', '', class: 'edit-answer-link', data: {answer_id: answer.id}
               - if user_signed_in? && @question.user_id == current_user.id
                 p= link_to 'Accept', accept_question_answer_path(@question, answer, 'answer[best]':true), class: 'accept-answer-link', remote: true, method: :patch
@@ -21,7 +21,7 @@
                   - answer.attachments.each do |a|
                     li= link_to a.file.identifier, a.file.url
               p
-                = nested_form_for [@question, answer], remote: true do |f|
+                = nested_form_for [answer], remote: true do |f|
                   = f.label :body, "Answer"
                   = f.text_area :body
                   = f.fields_for :attachments do |a|

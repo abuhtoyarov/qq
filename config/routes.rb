@@ -16,12 +16,21 @@ Rails.application.routes.draw do
   end
 
   resources :questions, concerns: :votable do
-    resources :answers, concerns: :votable do
-      member do
-        patch 'accept'
-      end
+    resources :answers, only: [:create] do
+      #member do
+       # patch 'accept'
+      #end
+      patch 'accept', on: :member
     end
   end
+
+  resources :answers, except: [:create], concerns: [:votable] do
+    resources :comments, only: [:create], defaults: { commentable: 'answers' }
+
+  end
+
+  resources :comments, only: [:update, :destroy]
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
