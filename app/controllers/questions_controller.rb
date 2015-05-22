@@ -23,17 +23,13 @@ class QuestionsController < ApplicationController
     @question = Question.new(question_params)
     @question.user = current_user
 
-    respond_to do |format|
+    if @question.save
+        PrivatePub.publish_to'/index', question: @question.to_json
+        redirect_to @question, notice: 'Your question successfully created.'
 
-      if @question.save
-        format.js
-        format.html{redirect_to @question, notice: 'Your question successfully created.'}
-        
-        #redirect_to @question
       else
         render :new
       end
-    end
 
   end
 

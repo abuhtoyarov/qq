@@ -27,6 +27,7 @@ ready = ->
   questionId = $('.answers').data('questionId');
   channel = '/questions/' + questionId + '/answers'
   PrivatePub.subscribe channel, (data, channel) ->
+    console.log(data)
     answer = $.parseJSON(data['answer'])
     $('.answers').append(JST["templates/answer/create"]({answer: answer}))
 

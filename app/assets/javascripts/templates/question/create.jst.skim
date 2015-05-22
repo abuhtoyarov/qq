@@ -1,0 +1,2 @@
+.question id=@question.id
+  a href="/questions/#{@question.id}/" #{@question.body}
