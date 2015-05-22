@@ -9,6 +9,7 @@ feature 'Create answer on question', %q{
   given(:user) { create(:user) }
   given(:question) { create(:question) }
 
+
   scenario 'Non-authenticated user ties to created answer' do
     visit question_path(question)
 

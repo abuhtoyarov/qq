@@ -1,9 +1,7 @@
 FactoryGirl.define do
   factory :comment do
-    body "MyText"
-commentable_type "MyString"
-commentable_id 1
-user nil
+    sequence(:body) {|n| "Answer ##{n}"}
+    user
   end
 
 end

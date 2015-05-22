@@ -17,16 +17,13 @@ Rails.application.routes.draw do
 
   resources :questions, concerns: :votable do
     resources :answers, only: [:create] do
-      #member do
-       # patch 'accept'
-      #end
       patch 'accept', on: :member
     end
+    resources :comments, only: [:create], defaults: { commentable: 'questions' }
   end
 
   resources :answers, except: [:create], concerns: [:votable] do
     resources :comments, only: [:create], defaults: { commentable: 'answers' }
-
   end
 
   resources :comments, only: [:update, :destroy]
