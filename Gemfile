@@ -30,6 +30,7 @@ gem 'bootstrap-sass', '~> 3.3.4'
 gem 'sass-rails', '>= 3.2'
 gem 'private_pub'
 gem 'thin'
+gem 'responders', '~> 2.0'
 
 gem 'slim-rails'
 gem 'skim'
