@@ -13,7 +13,7 @@ class AnswersController < ApplicationController
     respond_to do |format|
       if @answer.save
         format.json do
-          PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: render(:submit)
+          PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: render_to_string(:submit)
           render nothing: true
         end
       else
