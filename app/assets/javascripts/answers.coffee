@@ -38,7 +38,7 @@ editAnswerSuccess = (e, data, status, xhr) ->
 errorAnswer = (e, xhr, status, error) ->
   errors = $.parseJSON(xhr.responseText)
   $.each errors, (index, value) ->
-    $('.answer-errors').append(value)
+    $('.answer-errors').append(value.body)
 
 
 $(document).ready(ready) # "вешаем" функцию ready на событие document.ready

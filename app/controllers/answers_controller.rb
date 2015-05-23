@@ -3,50 +3,32 @@ class AnswersController < ApplicationController
   before_action :load_answer, only: [:show, :update, :destroy, :accept]
   before_action :load_question, only: [:create, :accept]
   before_action :authenticate_user!, any: [:new, :create, :update, :accept]
+  after_action  :publish_answer, only: :create
+  before_action :find_question, only: :update
+
+  respond_to :json, only: [:create, :update]
+  respond_to :js
 
   include Voted
 
   def create
-    @answer = @question.answers.new(answer_params)
-    @answer.user = current_user
-
-    respond_to do |format|
-      if @answer.save
-        format.json do
-          PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: render_to_string(:submit)
-          render nothing: true
-        end
-      else
-        format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
-        format.js
-      end
-    end
+    respond_with(@answer = @question.answers.create(answer_params.merge(user: current_user)))
   end
 
-
   def new
-    @answer = Answer.new
-    @answer.attachments.new
+    respond_with(@answer = Answer.new)
   end
 
   def destroy
-    @answer.destroy
+    respond_with(@answer.destroy)
   end
 
   def show
   end
 
   def update
-    respond_to do |format|
-      if @answer.update(answer_params)
-        format.json { render :submit }
-        format.js
-      else
-        format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
-        format.js
-      end
-      @question = @answer.question
-    end
+     @answer.update(answer_params)
+     respond_with @answer
   end
 
   def accept
@@ -58,6 +40,14 @@ class AnswersController < ApplicationController
 
   def load_answer
     @answer = Answer.find(params[:id])
+  end
+
+  def find_question
+    @question = @answer.question
+  end
+
+  def publish_answer
+    PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: render_to_string(:submit) if @answer.valid?
   end
 
   def load_question

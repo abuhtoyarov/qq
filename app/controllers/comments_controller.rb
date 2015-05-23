@@ -5,18 +5,19 @@ class CommentsController < ApplicationController
   before_action :authors, except: [:create]
   before_action :load_commentable, only: [:create]
 
+  respond_to :js
+
   def create
-    @comment = @commentable.comments.new(comment_params)
-    @comment.user = current_user
-    @comment.save
+    respond_with(@comment=@commentable.comments.create(comment_params.merge(user: current_user)))
   end
 
   def destroy
-    @comment.destroy
+    respond_with(@comment.destroy)
   end
 
   def update
     @comment.update(comment_params)
+    respond_with @comment
   end
 
   private
