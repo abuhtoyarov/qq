@@ -31,6 +31,8 @@ gem 'sass-rails', '>= 3.2'
 gem 'private_pub'
 gem 'thin'
 gem 'responders', '~> 2.0'
+gem 'omniauth'
+gem 'omniauth-facebook'
 
 gem 'slim-rails'
 gem 'skim'
