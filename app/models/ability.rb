@@ -27,4 +27,3 @@ class Ability
     can :create, :all
   end
 end
-
