@@ -50,6 +50,11 @@ RSpec.describe User do
           expect(User.find_for_oauth(auth)).to be_a(User)
         end
 
+        it 'fills user email' do
+          user = User.find_for_oauth(auth)
+          expect(user.email).to eq auth.info.email
+        end
+
         it 'create authorizations for user' do
           user = User.find_for_oauth(auth)
 
@@ -62,6 +67,14 @@ RSpec.describe User do
           expect(authorization.provider).to eq auth.provider
           expect(authorization.uid). to eq auth.uid
         end
+      end
+    end
+
+    context 'provider has not email' do
+      let(:auth) { OmniAuth::AuthHash.new(provider: 'twitter', uid: '123456') }
+
+      it 'returns nil' do
+        expect(User.find_for_oauth(auth)).to be nil
       end
     end
   end

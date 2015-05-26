@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: {omniauth_callbacks: 'omniauth_callbacks'}
+  devise_scope :user do
+    post '/confirm_email' => 'omniauth_callbacks#confirm_email'
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
