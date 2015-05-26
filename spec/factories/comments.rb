@@ -1,6 +1,7 @@
 FactoryGirl.define do
+
   factory :comment do
-    sequence(:body) {|n| "Answer ##{n}"}
+    sequence(:body) {|n| "Comment ##{n}"}
     user
   end
 
