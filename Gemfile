@@ -37,6 +37,7 @@ gem 'omniauth-twitter'
 gem 'slim-rails'
 gem 'skim'
 gem 'cancancan'
+gem 'doorkeeper'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
