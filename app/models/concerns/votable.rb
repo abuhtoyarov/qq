@@ -24,4 +24,5 @@ module Votable
   def unvoted_by(user)
     votes.where(user_id: user.id).delete_all
   end
+
 end

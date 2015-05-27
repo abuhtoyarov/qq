@@ -1,6 +1,6 @@
 div class="vote"
-  - if current_user
-    - if votable.votes.where(user_id: current_user.id).exists?
+
+    - if can?(:unvote, votable)
       ul class="list-group"
         li class="list-group-item"
           = p "your vote"
@@ -9,7 +9,7 @@ div class="vote"
         li class="list-group-item"
           = link_to "un vote", unvote_question_path(votable), remote: true, method: :patch
     - else
-      - if votable.user_id != current_user.id
+      - if can?(:like, votable)
         ul class="list-group"
           li class="list-group-item" 
             = link_to "up vote", like_question_path(votable), remote: true, method: :patch

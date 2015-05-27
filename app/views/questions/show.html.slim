@@ -6,7 +6,7 @@
         - @question.answers.order(:best, :created_at).each do |answer|
           =render :partial =>  'answer', locals: { answer: answer }
 
-      - if user_signed_in?
+      - if can?(:create, Answer)
         = nested_form_for [@question, @answer], data: {type: :json}, remote: true do |f|
           = f.label :body
           .answer-errors
@@ -17,7 +17,6 @@
           p= f.link_to_add 'Add attachment', :attachments
           = f.submit 'Answer'
 
-      - if user_signed_in? && @question.user_id == current_user.id
-        p= link_to 'Delete', @question, method: :delete
+        p= link_to 'Delete', @question, method: :delete if can?(:destroy, @question)
 = subscribe_to "/questions/#{@question.id}/answers"
 = subscribe_to "/questions/#{@question.id}/comments"

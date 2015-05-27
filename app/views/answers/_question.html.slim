@@ -1,4 +1,4 @@
-.question id=question.id
+.question id="question#{question.id}"
   .row
     .col-md-2
       = render 'votes_show', votable: question
@@ -8,7 +8,7 @@
       ul
         - question.attachments.each do |a|
           li= link_to a.file.identifier, a.file.url
-      - if user_signed_in? && question.user_id == current_user.id
+      - if can?(:update, question)
         p= link_to 'Edit', '', class: 'edit-question-link', data: {question_id: question.id}
         = nested_form_for question, remote: true do |f|
           = f.label :title
@@ -25,7 +25,7 @@
         - question.comments.each do |comment|
           = render 'comments/comment', commentable: comment
       .comment-errors
-      - if user_signed_in?
+      - if can?(:create, Comment)
         p=link_to 'add a comment', '', class: 'add-comment-link'
         = nested_form_for [question, question.comments.build], remote: true do |f|
           = f.label :body, "Comment"

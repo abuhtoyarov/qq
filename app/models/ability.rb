@@ -24,6 +24,15 @@ class Ability
   def user_abilities
     guest_abilities
     can :update, :all, user: user
+    can :destroy,:all, user: user
+    can [:like, :dislike], Votable do |votable|
+      votable.user != user && !Vote.where(user: user, votable_id: votable.id).any?
+    end
+    can :unvote, Votable do |votable|
+      votable.votes.where(user_id: user.id).exists?
+    end
+
+    can :accept, Answer, :question => {:user => user}
     can :create, :all
   end
 end

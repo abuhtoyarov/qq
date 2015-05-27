@@ -9,11 +9,9 @@
             strong= User.find_by(id: answer.user_id).email
           .panel-body
             =answer.body
-            - if user_signed_in? && answer.question.user_id == current_user.id
-              p= link_to 'Delete answer',[answer], remote: true, method: :delete
-              p= link_to 'Edit', '', class: 'edit-answer-link', data: {answer_id: answer.id}
-              - if user_signed_in? && @question.user_id == current_user.id
-                p= link_to 'Accept', accept_question_answer_path(@question, answer, 'answer[best]':true), class: 'accept-answer-link', remote: true, method: :patch
+            p= link_to 'Delete answer',[answer], remote: true, method: :delete if can?(:destroy, answer)
+            p= link_to 'Edit', '', class: 'edit-answer-link', data: {answer_id: answer.id} if can?(:update, answer)
+            p= link_to 'Accept', accept_question_answer_path(@question, answer, 'answer[best]':true), class: 'accept-answer-link', remote: true, method: :patch if can?(:accept, answer )
             .Attachments
               -if answer.attachments.exists?
                 p Attachments:

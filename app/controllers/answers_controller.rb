@@ -11,6 +11,8 @@ class AnswersController < ApplicationController
 
   include Voted
 
+  authorize_resource
+
   def create
     respond_with(@answer = @question.answers.create(answer_params.merge(user: current_user)))
   end

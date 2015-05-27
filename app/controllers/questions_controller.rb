@@ -4,9 +4,12 @@ class QuestionsController < ApplicationController
   before_action :build_answer, only: :show
   after_action  :publish_question, only: :create
 
-  respond_to :html
+  respond_to :html, :js
+
 
   include Voted
+
+  authorize_resource
 
   def index
     respond_with(@question = Question.all)
