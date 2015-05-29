@@ -1,3 +1,8 @@
 class AttachmentSerializer < ActiveModel::Serializer
-  attributes :file
+  attributes :url
+
+  def url
+    object.file.url
+  end
+
 end

@@ -88,7 +88,8 @@ describe 'Answers API' do
         end
 
         it "contains url" do
-           expect(response.body).to be_json_eql(attachments.file.url.to_json).at_path("answer/attachments/0/file/file/url")
+          puts
+           expect(response.body).to be_json_eql(attachments.file.url.to_json).at_path("answer/attachments/0/url")
          end
 
       end
