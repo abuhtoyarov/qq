@@ -87,11 +87,10 @@ describe 'Answers API' do
           expect(response.body).to have_json_size(1).at_path("answer/attachments")
         end
 
-        %w(file).each do |attr|
-          it "contains #{attr}" do
-            expect(response.body).to be_json_eql(attachments.send(attr.to_sym).to_json).at_path("answer/attachments/0/#{attr}")
-          end
-        end
+        it "contains url" do
+           expect(response.body).to be_json_eql(attachments.file.url.to_json).at_path("answer/attachments/0/file/file/url")
+         end
+
       end
     end
   end
