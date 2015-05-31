@@ -9,6 +9,7 @@ RSpec.describe CommentsController, type: :controller do
   let!(:comment_answer) { create(:comment, commentable: answer,  user: author) }
   let!(:comment_question) { create(:comment, commentable: question, user: author) }
 
+
   describe 'POST #create' do
     sign_in_user
 

@@ -2,17 +2,8 @@ require 'rails_helper'
 
 describe 'Profiles API' do
   describe 'GET /me' do
-    context 'unauthorized' do
-      it "return 401 status if there is no access token " do
-        get '/api/v1/profiles/me', format: :json
-        expect(response.status).to eq 401
-      end
 
-      it "return 401 status if access token is invalid" do
-        get '/api/v1/profiles/me', format: :json, access_token:1234
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like "API Authenticable"
 
     context 'authorized' do
       let(:me){ create(:user) }
@@ -25,8 +16,8 @@ describe 'Profiles API' do
       end
 
       %w(id email created_at updated_at).each do |attr|
-        it 'content email' do
-          expect(response.body).to be_json_eql(me.send(attr.to_sym).to_json).at_path(attr)
+        it "content #{attr}"  do
+          expect(response.body).to be_json_eql(me.send(attr.to_sym).to_json).at_path("#{attr}")
         end
       end
 
@@ -36,20 +27,14 @@ describe 'Profiles API' do
         end
       end
     end
+
+    def do_request(options = {})
+      get '/api/v1/profiles/me', {format: :json}.merge(options)
+    end
   end
 
   describe 'GET /users' do
-    context 'unauthorized' do
-      it "return 401 status if there is no access token " do
-        get '/api/v1/profiles/users', format: :json
-        expect(response.status).to eq 401
-      end
-
-      it "return 401 status if access token is invalid" do
-        get '/api/v1/profiles/users', format: :json, access_token:1234
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like "API Authenticable"
 
     context 'authorized' do
       let(:me){ create(:user) }
@@ -63,12 +48,16 @@ describe 'Profiles API' do
       end
 
       it 'contains users list' do
-        expect(response.body).to be_json_eql(users.to_json)
+        expect(response.body).to be_json_eql(users.to_json).at_path('profiles')
       end
 
       it 'without current_user' do
         expect(response.body).to_not include_json(me.to_json)
       end
+    end
+
+    def do_request(options = {})
+      get '/api/v1/profiles/users', {format: :json}.merge(options)
     end
   end
 end

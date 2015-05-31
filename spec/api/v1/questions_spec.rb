@@ -2,17 +2,8 @@ require 'rails_helper'
 
 describe 'Questions API' do
   describe 'GET /index' do
-    context 'unauthorized' do
-      it "return 401 status if there is no access token " do
-        get '/api/v1/questions', format: :json
-        expect(response.status).to eq 401
-      end
 
-      it "return 401 status if access token is invalid" do
-        get '/api/v1/questions', format: :json, access_token:1234
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like "API Authenticable"
 
     context 'authorized' do
       let(:access_token) { create(:access_token) }
@@ -22,9 +13,7 @@ describe 'Questions API' do
 
       before{get '/api/v1/questions', format: :json, access_token:access_token.token}
 
-      it 'returns 200 status code' do
-        expect(response).to be_success
-      end
+      it_behaves_like "API successful"
 
       it 'returns list of questions' do
         expect(response.body).to have_json_size(2).at_path("questions")
@@ -52,35 +41,36 @@ describe 'Questions API' do
         end
       end
     end
+
+    def do_request(options = {})
+      get '/api/v1/questions', {format: :json}.merge(options)
+    end
   end
 
   describe 'POST /create' do
-    context 'unauthorized' do
-      it "return 401 status if there is no access token " do
-        post '/api/v1/questions', format: :json
-        expect(response.status).to eq 401
-      end
 
-      it "return 401 status if access token is invalid" do
-        post '/api/v1/questions', format: :json, access_token:1234
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like "API Authenticable"
 
     context 'authorized' do
       let(:attr) { attributes_for :question }
       let(:access_token) { create(:access_token) }
       let(:params) { { question: attr, format: :json, access_token: access_token.token } }
-      let(:post_create) { post api_v1_questions_path, params }
+
+      before{post api_v1_questions_path, params }
+
+      it_behaves_like "API successful"
 
       it 'created question' do
-        post_create
         expect(response).to be_created
       end
 
-      it 'question saved in databse' do
-        expect{post_create}.to change(Question, :count).by(1)
+      it 'question saved in database' do
+        expect{post api_v1_questions_path, params}.to change(Question, :count).by(1)
       end
+    end
+
+    def do_request(options = {})
+      post api_v1_questions_path, {question: attributes_for(:question), format: :json}.merge(options)
     end
   end
 end

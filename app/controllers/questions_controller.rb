@@ -33,7 +33,7 @@ class QuestionsController < ApplicationController
 
   def update
     @question.update(question_params)
-    respond_with @question
+    respond_with(@question)
   end
 
   private
@@ -47,7 +47,7 @@ class QuestionsController < ApplicationController
   end
 
   def publish_question
-    PrivatePub.publish_to('/index', question: @question.to_json)
+    PrivatePub.publish_to('/index', question: @question.to_json) if @question.valid?
   end
 
   def question_params

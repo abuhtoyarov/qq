@@ -4,32 +4,50 @@ RSpec.describe AnswersController, type: :controller do
   let!(:question){ create(:question) }
   let(:answer) { create(:answer, question: question) }
   let(:accepted_answer) { create(:answer, question: question) }
+  let(:channel) { "/questions/#{question.id}/answers" }
 
   describe 'POST #create' do
     sign_in_user
 
     context 'with valid attributes' do
+      let(:params) {{ question_id:question.id, answer: attributes_for(:answer), format: :json }}
+
       it 'saved the new answer in the database' do
-        expect{ post :create, question_id: question, answer: attributes_for(:answer), format: :js }.to change(Answer, :count).by(1)
+        expect{ post :create, question_id: question, answer: attributes_for(:answer), format: :json }.to change(Answer, :count).by(1)
       end
-      it 'redirect to show view' do
-        expect{ post :create, question_id: question, answer: attributes_for(:answer), format: :js }.to change(Answer, :count).by(1)
-        expect(response).to render_template :create
+
+      it 'render to show view' do
+        expect{ post :create, question_id: question, answer: attributes_for(:answer), format: :json }.to change(Answer, :count).by(1)
+        expect(response).to render_template :submit
       end
+
       it 'Answer associated with question' do
-        post :create, question_id: question, answer: attributes_for(:answer), format: :js
+        post :create, question_id: question, answer: attributes_for(:answer), format: :json
         expect(assigns(:answer)[:question_id]).to eq question.id
       end
+
+      it_behaves_like "PrivatePub publishable"
+
     end
 
     context 'with invalid attributes' do
+      let(:params) {{ question_id:question.id, answer: attributes_for(:invalid_answer), format: :json }}
+
       it 'does not save the question' do
         expect{ post :create, question_id: question, answer: attributes_for(:invalid_answer), format: :js }.to_not change(Answer, :count)
       end
+
       it 'redirect to show view' do
         post :create, question_id: question, answer: attributes_for(:invalid_answer), format: :js
         expect(response).to render_template :create
       end
+
+      it_behaves_like "PrivatePub not publishable"
+
+    end
+
+    def do_request
+      post :create, params
     end
   end
 
@@ -70,7 +88,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     it 'changes answer attributes' do
-      patch :update, id: answer, question_id: question, answer: {body: 'new body'} , format: :js
+      patch :update, id: answer, question_id: question, answer: {body: 'new body'} , format: :json
       answer.reload
       expect(answer.body).to eq 'new body'
     end

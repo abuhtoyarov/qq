@@ -1,10 +1,14 @@
 require_relative '../../spec/acceptance/acceptance_helper'
 
 RSpec.describe QuestionsController, type: :controller do
+  let(:question) { create(:question) }
 
   describe 'POST #create' do
     sign_in_user
     context 'with valid attributes' do
+      let(:channel) { '/index' }
+      let(:params) {{ question: attributes_for(:question) }}
+
       it 'saved the new question in the database' do
         expect{ post :create, question: attributes_for(:question) }.to change(Question, :count).by(1)
       end
@@ -12,9 +16,15 @@ RSpec.describe QuestionsController, type: :controller do
         post :create, question: attributes_for(:question)
         expect(response).to redirect_to question_path(assigns(:question))
       end
+
+      it_behaves_like "PrivatePub publishable"
+
     end
 
     context 'with invalid attributes' do
+      let(:channel) { '/index' }
+      let(:params) {{ question: attributes_for(:invalid_question) }}
+
       it 'does not save the question' do
         expect{ post :create, question: attributes_for(:invalid_question) }.to_not change(Question, :count)
       end
@@ -22,6 +32,13 @@ RSpec.describe QuestionsController, type: :controller do
         post :create, question: attributes_for(:invalid_question)
         expect(response).to render_template :new
       end
+
+      it_behaves_like "PrivatePub not publishable"
+
+    end
+
+    def do_request
+      post :create, params
     end
   end
 
@@ -40,7 +57,6 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #show' do
-    let(:question){ create(:question)}
 
     before{ get :show, id: question }
 
@@ -60,10 +76,6 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:question)).to be_a_new(Question)
     end
 
-    it 'builds new attachment for question' do
-      expect(assigns(:question).attachments.first).to be_a_new(Attachment)
-    end
-
     it 'render new view' do
       expect(response).to render_template :new
     end
@@ -72,11 +84,9 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'DELETE #destroy' do
     sign_in_user
 
-    let(:question) { create(:question) }
-
     it 'Delete question' do
       question
-      expect{ delete :destroy, id: question }.to change(Question, :count).by(-1)
+      expect{ delete :destroy, id: question.id }.to change(Question, :count).by(-1)
     end
 
     it 'Redirect index page' do
@@ -89,18 +99,16 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'PATCH #update' do
     sign_in_user
 
-    let!(:question) { create(:question) }
-
     it 'assigns the requested question to @question' do
       patch :update, id: question, question: attributes_for(:question), format: :js
       expect(assigns(:question)).to eq question
     end
 
     it 'changes answer attributes' do
-      patch :update, id: question, question: {title: 'New Title', body: 'New body'}, format: :js
+      patch :update, id: question, question: { title: 'new title', body: 'new body'}
       question.reload
-      expect(question.title).to eq 'New Title'
-      expect(question.body).to eq 'New body'
+      expect(question.title).to eq 'new Title'
+      expect(question.body).to eq 'new body'
     end
 
     it 'render update template' do
