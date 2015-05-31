@@ -85,7 +85,7 @@ RSpec.describe QuestionsController, type: :controller do
     sign_in_user
 
     it 'Delete question' do
-      question
+      question.update(user_id:@user.id)
       expect{ delete :destroy, id: question.id }.to change(Question, :count).by(-1)
     end
 
@@ -104,14 +104,16 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:question)).to eq question
     end
 
-    it 'changes answer attributes' do
+    it 'changes question attributes' do
+      question.update(user_id:@user.id)
       patch :update, id: question, question: { title: 'new title', body: 'new body'}
       question.reload
-      expect(question.title).to eq 'new Title'
+      expect(question.title).to eq 'new title'
       expect(question.body).to eq 'new body'
     end
 
     it 'render update template' do
+      question.update(user_id:@user.id)
       patch :update, id: question, question: attributes_for(:question), format: :js
       expect(response).to render_template :update
     end

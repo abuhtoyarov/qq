@@ -69,11 +69,12 @@ RSpec.describe AnswersController, type: :controller do
     sign_in_user
 
     it 'Delete answer' do
-      answer
+      answer.update(user_id: @user.id)
       expect{ delete :destroy, id:answer, question_id: question, format: :js }.to change(question.answers, :count).by(-1)
     end
 
-    it 'Redirect to show' do
+    it 'Render template' do
+      answer.update(user_id: @user.id)
       delete :destroy, id:answer, question_id: question, format: :js
       expect(response).to render_template :destroy
     end
@@ -88,31 +89,35 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     it 'changes answer attributes' do
+      answer.update(user_id: @user.id)
       patch :update, id: answer, question_id: question, answer: {body: 'new body'} , format: :json
       answer.reload
       expect(answer.body).to eq 'new body'
     end
 
     it 'render update template' do
+      answer.update(user_id: @user.id)
       patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
       expect(response).to render_template :update
     end
 
     it 'Accepted answer' do
+      question.update(user_id: @user.id)
       patch :accept, id: answer, question_id: question, answer: {body: 'new body', best: true} , format: :js
       answer.reload
       expect(answer.best).to eq true
     end
 
     it 'Replace accept answer' do
-        patch :accept, id: accepted_answer, question_id: question, answer: {body: 'new body', best: true} , format: :js
-        accepted_answer.reload
-        expect(accepted_answer.best).to eq true
-        patch :accept, id: answer, question_id: question, answer: {body: 'new body123', best: true} , format: :js
-        answer.reload
-        expect(answer.best).to eq true
-        accepted_answer.reload
-        expect(accepted_answer.best).to_not eq true
+      question.update(user_id: @user.id)
+      patch :accept, id: accepted_answer, question_id: question, answer: {body: 'new body', best: true} , format: :js
+      accepted_answer.reload
+      expect(accepted_answer.best).to eq true
+      patch :accept, id: answer, question_id: question, answer: {body: 'new body123', best: true} , format: :js
+      answer.reload
+      expect(answer.best).to eq true
+      accepted_answer.reload
+      expect(accepted_answer.best).to_not eq true
     end
   end
 
