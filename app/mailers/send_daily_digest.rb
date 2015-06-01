@@ -1,0 +1,2 @@
+class SendDailyDigest < ApplicationMailer
+end
