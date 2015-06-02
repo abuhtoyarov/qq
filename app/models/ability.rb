@@ -31,8 +31,11 @@ class Ability
     can :unvote, Votable do |votable|
       votable.votes.where(user: user).exists?
     end
-
     can :accept, Answer, :question => {:user => user}
-    can :create, :all
+    can :create, Subscriber do |subscriber|
+      !@user.subscribed_to?(subscriber.question)
+    end
+    can :destroy, Subscriber, user_id: user
+    can :create, [Question, Answer, Comment]
   end
 end

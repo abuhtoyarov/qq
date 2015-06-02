@@ -1,6 +1,7 @@
 .question id="question#{question.id}"
   .row
     .col-md-2
+      = render 'subscribers/subscriber', question: question
       = render 'votes_show', votable: question
     .col-md-10
       h3= question.title
