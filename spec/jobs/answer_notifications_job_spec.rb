@@ -11,7 +11,7 @@ RSpec.describe AnswerNotificationsJob, type: :job do
 
   it 'send notice' do
     expect(AnswerNotificationsJob).to receive(:perform_later).with(answer.id).and_call_original
-    SendSubs.send_subs_answer
+    AnswerNotificationsJob.perform_later(answer.id)
   end
 
 end
