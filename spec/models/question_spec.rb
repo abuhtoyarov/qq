@@ -6,6 +6,7 @@ RSpec.describe Question, type: :model do
   it{ should have_many :answers }
   it{ should have_many(:answers).dependent(:destroy) }
   it{ should have_many :attachments}
+  it{ should have_many :subscribers}
   it{ should accept_nested_attributes_for :attachments }
 
   describe '.after_create' do

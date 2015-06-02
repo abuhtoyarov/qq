@@ -18,7 +18,7 @@ class Question < ActiveRecord::Base
   private
 
   def subscribe_own_question
-    Subscriber.create(user: user, question: self)
+   subscribers.create(user: user)
   end
 
 end
