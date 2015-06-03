@@ -45,6 +45,9 @@ gem 'sidekiq'
 gem 'whenever'
 gem "letter_opener"
 gem 'sinatra', require: nil
+gem 'mysql2'
+gem 'thinking-sphinx'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
