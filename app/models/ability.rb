@@ -33,7 +33,7 @@ class Ability
     end
     can :accept, Answer, :question => {:user => user}
     can :create, Subscriber do |subscriber|
-      !@user.subscribed_to?(subscriber.question)
+      !@user.subscribers.where(question_id:subscriber.question).present?
     end
     can :destroy, Subscriber, user_id: user
     can :create, [Question, Answer, Comment]

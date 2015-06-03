@@ -5,8 +5,11 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 require "cancan/matchers"
 require 'sidekiq/testing'
+require 'active_job/test_helper'
 
 Sidekiq::Testing.inline!
+include ActiveJob::TestHelper
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
