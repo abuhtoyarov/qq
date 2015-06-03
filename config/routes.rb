@@ -48,5 +48,6 @@ Rails.application.routes.draw do
 
   resources :comments, only: [:update, :destroy]
   resources :subscribers, only: [:destroy]
+  resources :searches
 
 end
