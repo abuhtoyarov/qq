@@ -5,6 +5,8 @@ class SearchesController < ApplicationController
     case params[:conditions]
       when 'Question'
         @search = Question.search params[:search]
+    when 'Answer'
+    	@search = Answer.search params[:search]
     end
     authorize! :index, @search
   end
