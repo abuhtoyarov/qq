@@ -11,6 +11,7 @@ class SearchesController < ApplicationController
     	@search = Comment.search params[:search]
       when 'User'
     	@search = User.search params[:search]
+    
       when 'All'
     	@search = ThinkingSphinx.search params[:search]
     end
