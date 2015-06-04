@@ -9,6 +9,8 @@ class SearchesController < ApplicationController
     	@search = Answer.search params[:search]
       when 'Comment'
     	@search = Comment.search params[:search]
+    when 'User'
+    	@search = User.search params[:search]
     end
     authorize! :index, @search
   end
