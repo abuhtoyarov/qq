@@ -5,17 +5,15 @@ class SearchesController < ApplicationController
       when 'Question'
         @search = Question.search params[:search]
       when 'Answer'
-    	@search = Answer.search params[:search]
+    	  @search = Answer.search params[:search]
       when 'Comment'
-    	@search = Comment.search params[:search]
+    	  @search = Comment.search params[:search]
       when 'User'
-    	@search = User.search params[:search]
-    
+    	  @search = User.search params[:search]
       when 'All'
-    	@search = ThinkingSphinx.search params[:search]
+    	  @search = ThinkingSphinx.search params[:search]
     end
     authorize! :index, @search
   end
-
 end
 
