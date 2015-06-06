@@ -7,7 +7,7 @@ class Question < ActiveRecord::Base
   has_many :attachments, as: :attachable
   has_many :comments, as: :commentable , dependent: :destroy
   belongs_to :user
-  has_many :subscribers
+  has_many :subscribers, dependent: :destroy
 
   accepts_nested_attributes_for :attachments, :allow_destroy => true
 
