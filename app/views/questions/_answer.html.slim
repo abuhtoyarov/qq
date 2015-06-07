@@ -1,41 +1,42 @@
-- if answer.persisted?
-  .row id="answer#{answer.id}"
-    .col-md-2
-      = render 'answers/votes_show', votable: answer
-    .col-md-10
+- cache answer do
+  - if answer.persisted?
+    .row id="answer#{answer.id}"
+      .col-md-2
+        = render 'answers/votes_show', votable: answer
+      .col-md-10
 
-      div class=(answer.best ? 'answer panel panel-success' : 'answer panel panel-default')
-          .panel-heading
-            strong= User.find_by(id: answer.user_id).email
-          .panel-body
-            =answer.body
-            p= link_to 'Delete answer',[answer], remote: true, method: :delete if can?(:destroy, answer)
-            p= link_to 'Edit', '', class: 'edit-answer-link', data: {answer_id: answer.id} if can?(:update, answer)
-            p= link_to 'Accept', accept_question_answer_path(@question, answer, 'answer[best]':true), class: 'accept-answer-link', remote: true, method: :patch if can?(:accept, answer )
-            .Attachments
-              -if answer.attachments.exists?
-                p Attachments:
-                ul
-                  - answer.attachments.each do |a|
-                    li= link_to a.file.identifier, a.file.url
-              p
-                = nested_form_for [answer], remote: true do |f|
-                  = f.label :body, "Answer"
-                  = f.text_area :body
-                  = f.fields_for :attachments do |a|
-                      =a.label :file
-                      =a.text_field  :file
-                      p= a.link_to_remove 'Remove this file'
-                  = f.submit "Save"
-      .comments id="commentable-id-#{answer.id}"
-        - answer.comments.each do |comment|
-          = render 'comments/comment', commentable: comment
-      .comment-errors
-      - if user_signed_in?
-        p=link_to 'add a comment', '', class: 'add-comment-link'
-        = nested_form_for [answer, answer.comments.build], remote: true do |f|
-          = f.label :body, "Comment"
-          p= f.text_area :body
-          p= f.submit "Add comment"
+        div class=(answer.best ? 'answer panel panel-success' : 'answer panel panel-default')
+            .panel-heading
+              strong= User.find_by(id: answer.user_id).email
+            .panel-body
+              =answer.body
+              p= link_to 'Delete answer',[answer], remote: true, method: :delete if can?(:destroy, answer)
+              p= link_to 'Edit', '', class: 'edit-answer-link', data: {answer_id: answer.id} if can?(:update, answer)
+              p= link_to 'Accept', accept_question_answer_path(@question, answer, 'answer[best]':true), class: 'accept-answer-link', remote: true, method: :patch if can?(:accept, answer )
+              .Attachments
+                -if answer.attachments.exists?
+                  p Attachments:
+                  ul
+                    - answer.attachments.each do |a|
+                      li= link_to a.file.identifier, a.file.url
+                p
+                  = nested_form_for [answer], remote: true do |f|
+                    = f.label :body, "Answer"
+                    = f.text_area :body
+                    = f.fields_for :attachments do |a|
+                        =a.label :file
+                        =a.text_field  :file
+                        p= a.link_to_remove 'Remove this file'
+                    = f.submit "Save"
+        .comments id="commentable-id-#{answer.id}"
+          - answer.comments.each do |comment|
+            = render 'comments/comment', commentable: comment
+        .comment-errors
+        - if user_signed_in?
+          p=link_to 'add a comment', '', class: 'add-comment-link'
+          = nested_form_for [answer, answer.comments.build], remote: true do |f|
+            = f.label :body, "Comment"
+            p= f.text_area :body
+            p= f.submit "Add comment"
 
 = subscribe_to "/questions/#{@question.id}/answers/#{@answer.id}"

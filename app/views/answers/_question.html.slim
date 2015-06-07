@@ -1,34 +1,35 @@
-.question id="question#{question.id}"
-  .row
-    .col-md-2
-      = render 'subscribers/subscriber', question: question
-      = render 'votes_show', votable: question
-    .col-md-10
-      h3= question.title
-      h5= question.body
-      ul
-        - question.attachments.each do |a|
-          li= link_to a.file.identifier, a.file.url
-      - if can?(:update, question)
-        p= link_to 'Edit', '', class: 'edit-question-link', data: {question_id: question.id}
-        = nested_form_for question, remote: true do |f|
-          = f.label :title
-          = f.text_field :title
-          = f.label :body
-          = f.text_area :body
-          = f.fields_for :attachments do |a|
-              =a.label :file
-              =a.text_field :file
-              p= a.link_to_remove 'Remove this file'
-          = f.submit 'Save'
+-cache question do
+  .question id="question#{question.id}"
+    .row
+      .col-md-2
+        = render 'subscribers/subscriber', question: question
+        = render 'votes_show', votable: question
+      .col-md-10
+        h3= question.title
+        h5= question.body
+        ul
+          - question.attachments.each do |a|
+            li= link_to a.file.identifier, a.file.url
+        - if can?(:update, question)
+          p= link_to 'Edit', '', class: 'edit-question-link', data: {question_id: question.id}
+          = nested_form_for question, remote: true do |f|
+            = f.label :title
+            = f.text_field :title
+            = f.label :body
+            = f.text_area :body
+            = f.fields_for :attachments do |a|
+                =a.label :file
+                =a.text_field :file
+                p= a.link_to_remove 'Remove this file'
+            = f.submit 'Save'
 
-      .comments id="commentable-id-#{question.id}"
-        - question.comments.each do |comment|
-          = render 'comments/comment', commentable: comment
-      .comment-errors
-      - if can?(:create, Comment)
-        p=link_to 'add a comment', '', class: 'add-comment-link'
-        = nested_form_for [question, question.comments.build], remote: true do |f|
-          = f.label :body, "Comment"
-          p= f.text_area :body
-          p= f.submit "Add comment"
+        .comments id="commentable-id-#{question.id}"
+          - question.comments.each do |comment|
+            = render 'comments/comment', commentable: comment
+        .comment-errors
+        - if can?(:create, Comment)
+          p=link_to 'add a comment', '', class: 'add-comment-link'
+          = nested_form_for [question, question.comments.build], remote: true do |f|
+            = f.label :body, "Comment"
+            p= f.text_area :body
+            p= f.submit "Add comment"

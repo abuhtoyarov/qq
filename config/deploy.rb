@@ -22,6 +22,12 @@ namespace :deploy do
       invoke 'unicorn:restart'
     end
   end
+  task :stop do
+    on roles(:app), in: :sequence, wait: 5 do
+      #execute :touch, release_path.join('tmp/restart.txt')
+      invoke 'unicorn:stop'
+    end
+  end
   after :publishing, :restart  
 end
 
@@ -59,41 +65,5 @@ namespace :private_pub do
     end
   end
 end
-
-namespace :unicorn do
-  desc 'Start unicorn server'
-  task :start do
-    on roles(:app) do
-      within current_path do
-        with rails_env: fetch(:rails_env) do
-          invoke 'unicorn:start'
-        end
-      end
-    end
-  end
-
-  desc 'Stop unicorn server'
-  task :stop do
-    on roles(:app) do
-      within current_path do
-        with rails_env: fetch(:rails_env) do
-          invoke 'unicorn:stop'
-        end
-      end
-    end
-  end
-
-  desc 'Restart unicorn server'
-  task :restart do
-    on roles(:app) do
-      within current_path do
-        with rails_env: fetch(:rails_env) do
-          invoke 'unicorn:restart'
-        end
-      end
-    end
-  end
-end
-
 
 after 'deploy:restart', 'private_pub:restart'

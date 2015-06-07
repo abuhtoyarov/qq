@@ -1,10 +1,13 @@
 .comment id="comment#{commentable.id}"
   hr
-  p= commentable.body
+  - cache commentable
+    p= commentable.body
+
   - if can?(:update, commentable)
     small= link_to ' delete comment ',[commentable], remote: true, method: :delete
   - if can?(:destroy, commentable)
     small= link_to ' edit comment ','', class: 'edit-comment-link', data: {comment_id: commentable.id}
+    
     = nested_form_for [commentable], remote: true do |f|
       = f.label :body, "Comment"
       p= f.text_area :body

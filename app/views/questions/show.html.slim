@@ -1,21 +1,19 @@
 .container
+  =render :partial =>  'answers/question', locals: { question: @question }
+  .answers data={question_id: "#{@question.id}"} data-type-answer=(@question.answers.exists?(best:true) ? 'accept' : 'default')
+    - @question.answers.order(:best, :created_at).each do |answer|
+      =render :partial =>  'answer', locals: { answer: answer }
 
-      =render :partial =>  'answers/question', locals: { question: @question }
-
-      .answers data={question_id: "#{@question.id}"} data-type-answer=(@question.answers.exists?(best:true) ? 'accept' : 'default')
-        - @question.answers.order(:best, :created_at).each do |answer|
-          =render :partial =>  'answer', locals: { answer: answer }
-
-      - if can?(:create, Answer)
-        = nested_form_for [@question, @answer], data: {type: :json}, remote: true do |f|
-          = f.label :body
-          .answer-errors
-          = f.text_area :body
-          = f.fields_for :attachments do |a|
-            = a.label :file
-            = a.file_field :file
-          p= f.link_to_add 'Add attachment', :attachments
-          = f.submit 'Answer'
+  - if can?(:create, Answer)
+    = nested_form_for [@question, @answer], data: {type: :json}, remote: true do |f|
+      = f.label :body
+      .answer-errors
+      = f.text_area :body
+      = f.fields_for :attachments do |a|
+        = a.label :file
+        = a.file_field :file
+      p= f.link_to_add 'Add attachment', :attachments
+      = f.submit 'Answer'
 
         p= link_to 'Delete', @question, method: :delete if can?(:destroy, @question)
 = subscribe_to "/questions/#{@question.id}/answers"
