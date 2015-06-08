@@ -8,7 +8,8 @@
           .panel-heading
             strong= User.find_by(id: answer.user_id).email
           .panel-body
-            =answer.body
+            - cache answer do
+              =answer.body
             p= link_to 'Delete answer',[answer], remote: true, method: :delete if can?(:destroy, answer)
             p= link_to 'Edit', '', class: 'edit-answer-link', data: {answer_id: answer.id} if can?(:update, answer)
             p= link_to 'Accept', accept_question_answer_path(@question, answer, 'answer[best]':true), class: 'accept-answer-link', remote: true, method: :patch if can?(:accept, answer )

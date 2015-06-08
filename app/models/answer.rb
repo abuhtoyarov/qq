@@ -3,7 +3,7 @@ class Answer < ActiveRecord::Base
   include Votable
 
   validates :body, presence: true
-  belongs_to :question
+  belongs_to :question, touch: true
   has_many :attachments, as: :attachable
   has_many :comments, as: :commentable , dependent: :destroy
   belongs_to :user
